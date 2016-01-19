@@ -28,7 +28,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.parse.Parse;
-import com.parse.ParseObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -100,9 +99,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         Parse.enableLocalDatastore(this);
         Parse.initialize(this);
 
-        ParseObject testObject = new ParseObject("TestObject");
-        testObject.put("foo", "bar");
-        testObject.saveInBackground();
+        //ParseObject testObject = new ParseObject("TestObject");
+        //testObject.put("foo", "bar");
+        //testObject.saveInBackground();
     }
 
     private void populateAutoComplete() {
@@ -207,8 +206,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     }
 
     private boolean isPasswordValid(String password) {
-        //TODO: Replace this with your own logic
-        return password.length() > 4;
+        return password.length() > 7;
     }
 
     /**
