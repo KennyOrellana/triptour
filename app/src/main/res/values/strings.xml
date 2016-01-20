@@ -1,4 +1,9 @@
 <resources>
+    <!--Facebook-->
+    <string name="facebook_app_id">1669417963316566</string>
+    <string name="error_login_facebook">Error al iniciar sesión con Facebook</string>
+    <string name="cancel_login_facebook">Inicio de Sesión Cancelado</string>
+
     <string name="app_name">TripTour</string>
     <string name="title_activity_login">Ingresar</string>
 

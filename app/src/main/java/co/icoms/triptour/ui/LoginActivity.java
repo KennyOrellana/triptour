@@ -4,12 +4,14 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.app.LoaderManager.LoaderCallbacks;
+import android.content.Context;
 import android.content.CursorLoader;
+import android.content.Intent;
 import android.content.Loader;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
@@ -17,6 +19,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -26,10 +29,28 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.facebook.AccessToken;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.FacebookSdk;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
+import com.facebook.login.LoginResult;
+import com.facebook.login.widget.LoginButton;
+import com.parse.FindCallback;
 import com.parse.Parse;
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import co.icoms.triptour.R;
@@ -47,27 +68,54 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private static final int REQUEST_READ_CONTACTS = 0;
 
     /**
-     * A dummy authentication store containing known user names and passwords.
-     * TODO: remove after connecting to a real authentication system.
-     */
-    private static final String[] DUMMY_CREDENTIALS = new String[]{
-            "foo@example.com:hello", "bar@example.com:world"
-    };
-    /**
      * Keep track of the login task to ensure we can cancel it if requested.
      */
-    private UserLoginTask mAuthTask = null;
-
     // UI references.
     private AutoCompleteTextView mEmailView;
     private EditText mPasswordView;
     private View mProgressView;
     private View mLoginFormView;
+    //Facebook
+    CallbackManager callbackManager;
+    LoginButton loginButton;
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        callbackManager.onActivityResult(requestCode, resultCode, data);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        /*
+
+        KEY HASH
+
+        try {
+            PackageInfo info = getPackageManager().getPackageInfo(
+                    "co.icoms.triptour",
+                    PackageManager.GET_SIGNATURES);
+            for (Signature signature : info.signatures) {
+                MessageDigest md = MessageDigest.getInstance("SHA");
+                md.update(signature.toByteArray());
+                Log.d("KeyHash:", Base64.encodeToString(md.digest(), Base64.DEFAULT));
+            }
+        } catch (PackageManager.NameNotFoundException e) {
+
+        } catch (NoSuchAlgorithmException e) {
+
+        }
+        */
+
         super.onCreate(savedInstanceState);
+        //Booting Facebook SDK
+
+        FacebookSdk.sdkInitialize(getApplicationContext());
+        //If Facebook Logged skip login
+        callbackManager = CallbackManager.Factory.create();
         setContentView(R.layout.activity_login);
+
+
+
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
         populateAutoComplete();
@@ -95,13 +143,64 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
 
-        //PARSE
+        //Booting PARSE
         Parse.enableLocalDatastore(this);
         Parse.initialize(this);
 
-        //ParseObject testObject = new ParseObject("TestObject");
-        //testObject.put("foo", "bar");
-        //testObject.saveInBackground();
+
+
+        //Login Facebook
+        loginButton = (LoginButton) findViewById(R.id.login_button_facebook);
+        loginButton.setReadPermissions(Arrays.asList("public_profile, email"));
+
+        // Other app specific specialization
+        if(isLoggedFacebook())
+            startMainActivity();
+
+        loginButton.registerCallback(callbackManager,
+                new FacebookCallback<LoginResult>() {
+                    @Override
+                    public void onSuccess(LoginResult loginResult) {
+                        Log.d("Facebook", "onSucess");
+
+                        GraphRequest request = GraphRequest.newMeRequest(
+                                loginResult.getAccessToken(),
+                                new GraphRequest.GraphJSONObjectCallback() {
+                                    @Override
+                                    public void onCompleted(
+                                            JSONObject object,
+                                            GraphResponse response) {
+
+                                        ParseObject newUser = new ParseObject("UsuariosFB");
+                                        try {
+                                            newUser.put("id", object.getString("id"));
+                                            newUser.put("email", object.getString("email"));
+                                            newUser.saveInBackground();
+                                        } catch (JSONException e) {
+                                            e.printStackTrace();
+                                        }
+                                    }
+                                });
+
+                        startMainActivity();
+                    }
+
+                    @Override
+                    public void onCancel() {
+                        Log.d("Facebook", "onCancel");
+
+                        Toast toast = Toast.makeText(getApplicationContext(), R.string.cancel_login_facebook, Toast.LENGTH_LONG);
+                        toast.show();
+                    }
+
+                    @Override
+                    public void onError(FacebookException exception) {
+                        Log.d("Facebook", "onError");
+
+                        Toast toast = Toast.makeText(getApplicationContext(), R.string.error_login_facebook, Toast.LENGTH_LONG);
+                        toast.show();
+                    }
+                });
     }
 
     private void populateAutoComplete() {
@@ -147,31 +246,31 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         }
     }
 
-
     /**
      * Attempts to sign in or register the account specified by the login form.
      * If there are form errors (invalid email, missing fields, etc.), the
      * errors are presented and no actual login attempt is made.
      */
     private void attemptLogin() {
-        if (mAuthTask != null) {
-            return;
-        }
 
         // Reset errors.
         mEmailView.setError(null);
         mPasswordView.setError(null);
 
         // Store values at the time of the login attempt.
-        String email = mEmailView.getText().toString();
-        String password = mPasswordView.getText().toString();
+        final String email=new String(mEmailView.getText().toString());
+        final String password=new String(mPasswordView.getText().toString());
 
         boolean cancel = false;
         View focusView = null;
 
         // Check for a valid password, if the user entered one.
-        if (!TextUtils.isEmpty(password) && !isPasswordValid(password)) {
-            mPasswordView.setError(getString(R.string.error_invalid_password));
+        if (TextUtils.isEmpty(password)) {
+            mPasswordView.setError(getString(R.string.error_field_required));
+            focusView = mPasswordView;
+            cancel = true;
+        } else if (!isPasswordValid(password)) {
+            mEmailView.setError(getString(R.string.error_invalid_email));
             focusView = mPasswordView;
             cancel = true;
         }
@@ -195,14 +294,15 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             showProgress(true);
-            mAuthTask = new UserLoginTask(email, password);
-            mAuthTask.execute((Void) null);
+            //mAuthTask = new UserLoginTask(email, password);
+            //mAuthTask.execute((Void) null);
+
+
         }
     }
 
     private boolean isEmailValid(String email) {
-        //TODO: Replace this with your own logic
-        return email.contains("@");
+        return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches();
     }
 
     private boolean isPasswordValid(String password) {
@@ -299,61 +399,74 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         int IS_PRIMARY = 1;
     }
 
-    /**
-     * Represents an asynchronous login/registration task used to authenticate
-     * the user.
-     */
-    public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
+    private boolean isLoggedFacebook() {
+        AccessToken accessToken = AccessToken.getCurrentAccessToken();
+        return accessToken != null;
+    }
+    /*
+    private boolean isLoggedEmail(){
+        SharedPreferences prefs =
+                getSharedPreferences("login", Context.MODE_PRIVATE);
 
-        private final String mEmail;
-        private final String mPassword;
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString("email", "modificado@email.com");
+        editor.putString("nombre", "Prueba");
+        editor.commit();
+    }
+    */
 
-        UserLoginTask(String email, String password) {
-            mEmail = email;
-            mPassword = password;
-        }
+    private void queryLoginEmail(String Email, String Password ){
+        final String email=new String(Email);
+        final String password=new String(Password);
 
-        @Override
-        protected Boolean doInBackground(Void... params) {
-            // TODO: attempt authentication against a network service.
+        ParseQuery query = new ParseQuery("Usuarios");
+        query.whereEqualTo("email", email);
+        query.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> user, ParseException e) {
+                if (user != null && user.size()>0) {
+                    if (user.get(0).getString("email").equals(email)) {//Si el correo existe
+                        if(user.get(0).getString("password").equals(password))
+                            startMainActivity();
+                        else{
+                            showProgress(false);
+                            mPasswordView.setError(getString(R.string.error_incorrect_password));
+                            mPasswordView.requestFocus();
+                        }
+                    }
+                }
+                else {
+                    ParseObject newUser = new ParseObject("Usuarios");
+                    newUser.put("email", email);
+                    newUser.put("password", password);
+                    newUser.saveInBackground();
 
-            try {
-                // Simulate network access.
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
-                return false;
-            }
-
-            for (String credential : DUMMY_CREDENTIALS) {
-                String[] pieces = credential.split(":");
-                if (pieces[0].equals(mEmail)) {
-                    // Account exists, return true if the password matches.
-                    return pieces[1].equals(mPassword);
+                    startMainActivity();
                 }
             }
-
-            // TODO: register the new account here.
-            return true;
-        }
-
-        @Override
-        protected void onPostExecute(final Boolean success) {
-            mAuthTask = null;
-            showProgress(false);
-
-            if (success) {
-                finish();
-            } else {
-                mPasswordView.setError(getString(R.string.error_incorrect_password));
-                mPasswordView.requestFocus();
-            }
-        }
-
-        @Override
-        protected void onCancelled() {
-            mAuthTask = null;
-            showProgress(false);
-        }
+        });
     }
+
+    private void saveLoggedEmail(String email, String password){
+        SharedPreferences prefs =
+                getSharedPreferences("login", Context.MODE_PRIVATE);
+
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString("email", email);
+        editor.putString("password", password);
+        editor.commit();
+    }
+
+    private void startMainActivity(){
+        Intent mainIntent = new Intent(getApplicationContext(), MainActivity.class);
+        startActivity(mainIntent);
+    }
+
+    //Para que no muestre error
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
+
 }
 
