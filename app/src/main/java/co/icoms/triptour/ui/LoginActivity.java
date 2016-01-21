@@ -114,8 +114,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         callbackManager = CallbackManager.Factory.create();
         setContentView(R.layout.activity_login);
 
-
-
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
         populateAutoComplete();
@@ -153,10 +151,20 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         loginButton = (LoginButton) findViewById(R.id.login_button_facebook);
         loginButton.setReadPermissions(Arrays.asList("public_profile, email"));
 
-        // Other app specific specialization
-        if(isLoggedFacebook())
-            startMainActivity();
 
+        //Login email
+        SharedPreferences prefs = getSharedPreferences("login", Context.MODE_PRIVATE);
+        if(prefs.getBoolean("logged", false)) {
+            Log.e("Login", "Login con Email");
+            startPlaceActivity();
+        }
+        else {
+            if (isLoggedFacebook()) {
+                Log.e("Login", "Login con Facebook");
+                startPlaceActivity();
+            }
+        }
+        //------
         loginButton.registerCallback(callbackManager,
                 new FacebookCallback<LoginResult>() {
                     @Override
@@ -182,7 +190,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                                     }
                                 });
 
-                        startMainActivity();
+                        startPlaceActivity();
                     }
 
                     @Override
@@ -258,8 +266,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         mPasswordView.setError(null);
 
         // Store values at the time of the login attempt.
-        final String email=new String(mEmailView.getText().toString());
-        final String password=new String(mPasswordView.getText().toString());
+        String email=new String(mEmailView.getText().toString());
+        String password=new String(mPasswordView.getText().toString());
 
         boolean cancel = false;
         View focusView = null;
@@ -296,8 +304,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             showProgress(true);
             //mAuthTask = new UserLoginTask(email, password);
             //mAuthTask.execute((Void) null);
-
-
+            loginEmail(email,password);
         }
     }
 
@@ -403,19 +410,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         AccessToken accessToken = AccessToken.getCurrentAccessToken();
         return accessToken != null;
     }
-    /*
-    private boolean isLoggedEmail(){
-        SharedPreferences prefs =
-                getSharedPreferences("login", Context.MODE_PRIVATE);
 
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.putString("email", "modificado@email.com");
-        editor.putString("nombre", "Prueba");
-        editor.commit();
-    }
-    */
-
-    private void queryLoginEmail(String Email, String Password ){
+    private void loginEmail(String Email, String Password ){
         final String email=new String(Email);
         final String password=new String(Password);
 
@@ -424,49 +420,62 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         query.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> user, ParseException e) {
-                if (user != null && user.size()>0) {
+                if (user != null && user.size() > 0) {
                     if (user.get(0).getString("email").equals(email)) {//Si el correo existe
-                        if(user.get(0).getString("password").equals(password))
-                            startMainActivity();
-                        else{
+                        if (user.get(0).getString("password").equals(password)) {
+                            saveLogin(email, password);
+                            startPlaceActivity();
+                        } else {
                             showProgress(false);
                             mPasswordView.setError(getString(R.string.error_incorrect_password));
                             mPasswordView.requestFocus();
                         }
                     }
-                }
-                else {
+                } else {
                     ParseObject newUser = new ParseObject("Usuarios");
                     newUser.put("email", email);
                     newUser.put("password", password);
                     newUser.saveInBackground();
 
-                    startMainActivity();
+                    startPlaceActivity();
                 }
             }
         });
     }
 
-    private void saveLoggedEmail(String email, String password){
-        SharedPreferences prefs =
-                getSharedPreferences("login", Context.MODE_PRIVATE);
+    private void startPlaceActivity(){
+        Intent placeIntent = new Intent(getApplicationContext(), PlaceActivity.class);
+        startActivity(placeIntent);
+        finish();
+    }
 
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        SharedPreferences prefs = getSharedPreferences("login", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
-        editor.putString("email", email);
-        editor.putString("password", password);
+
+        editor.putString("email", mEmailView.getText().toString());
         editor.commit();
     }
 
-    private void startMainActivity(){
-        Intent mainIntent = new Intent(getApplicationContext(), MainActivity.class);
-        startActivity(mainIntent);
+    private void saveLogin(String email, String password){
+        SharedPreferences prefs = getSharedPreferences("login", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+
+        editor.putString("email", email);
+        editor.putString("password", password);
+        editor.putBoolean("logged", true);
+
+        editor.commit();
     }
 
-    //Para que no muestre error
     @Override
     protected void onResume() {
         super.onResume();
+        SharedPreferences prefs = getSharedPreferences("login", Context.MODE_PRIVATE);
+        mEmailView.setText(prefs.getString("email",""));
     }
-
 }
 
