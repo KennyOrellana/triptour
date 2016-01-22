@@ -1,13 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@color/black">
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="horizontal" >
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/place_message"
+                android:textSize="38sp"
+                android:layout_gravity="center"
+                android:textAlignment="center"
+                android:padding="5dp"
+                android:textColor="@color/white"
+                android:shadowColor="@color/gold"
+                android:shadowRadius="10"
+                android:shadowDx="5"
+                android:shadowDy="5"/>
 
-<android.support.v4.view.ViewPager
-    android:id="@+id/pager"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent" />
+            <android.support.v4.view.ViewPager
+                android:id="@+id/viewPagerPlaceRoatan"
+                android:layout_width="wrap_content"
+                android:layout_height="210dp"/>
 
+            <android.support.v4.view.ViewPager
+                android:id="@+id/viewPagerPlaceAmapala"
+                android:layout_width="wrap_content"
+                android:layout_height="210dp"/>
+
+            <android.support.v4.view.ViewPager
+                android:id="@+id/viewPagerPlaceCeiba"
+                android:layout_width="wrap_content"
+                android:layout_height="210dp"/>
+
+        </LinearLayout>
+    </ScrollView>
 </LinearLayout>

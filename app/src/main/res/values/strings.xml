@@ -19,4 +19,6 @@
     <string name="permission_rationale">"Se requiere permiso para poder acceder a los contactos"
     </string>
 
+    <!--String PlaceActivity-->
+    <string name="place_message">seleccione destino</string>
 </resources>

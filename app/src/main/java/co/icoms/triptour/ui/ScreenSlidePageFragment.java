@@ -4,32 +4,34 @@ package co.icoms.triptour.ui;
  * Created by kenny on 20/1/16.
  */
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+import android.widget.ImageView;
+
+import com.android.volley.toolbox.ImageLoader;
 
 import co.icoms.triptour.R;
+import co.icoms.triptour.utils.MySingleton;
 
 public class ScreenSlidePageFragment extends Fragment {
 
-    private static final String BACKGROUND_COLOR = "color";
+    private static final String URL = "url";
     private static final String INDEX = "index";
 
-    private int color;
+    private String url;
     private int index;
 
-    public static ScreenSlidePageFragment newInstance(int color, int index) {
+    public static ScreenSlidePageFragment newInstance(String url, int index) {
 
         // Instantiate a new fragment
         ScreenSlidePageFragment fragment = new ScreenSlidePageFragment();
 
         // Save the parameters
         Bundle bundle = new Bundle();
-        bundle.putInt(BACKGROUND_COLOR, color);
+        bundle.putString(URL, url);
         bundle.putInt(INDEX, index);
         fragment.setArguments(bundle);
         fragment.setRetainInstance(true);
@@ -43,10 +45,11 @@ public class ScreenSlidePageFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
 
         // Load parameters when the initial creation of the fragment is done
-        this.color = (getArguments() != null) ? getArguments().getInt(
-                BACKGROUND_COLOR) : Color.GRAY;
+        this.url = (getArguments() != null) ? getArguments().getString(
+                URL) : "http://news.aroundcommodities.com/assets/backgrounds/photo-default-th.png";
         this.index = (getArguments() != null) ? getArguments().getInt(INDEX)
                 : -1;
+
     }
 
     @Override
@@ -56,12 +59,17 @@ public class ScreenSlidePageFragment extends Fragment {
         ViewGroup rootView = (ViewGroup) inflater.inflate(
                 R.layout.fragment_screen_slide_page, container, false);
 
-        // Show the current page index in the view
-        TextView tvIndex = (TextView) rootView.findViewById(R.id.tvIndex);
-        tvIndex.setText(String.valueOf(this.index));
+        ImageLoader mImageLoader;
+        ImageView mImageView;
 
-        // Change the background color
-        rootView.setBackgroundColor(this.color);
+        // The URL for the image that is being loaded.
+        final String IMAGE_URL = new String(url);
+        mImageView = (ImageView) rootView.findViewById(R.id.imageView);
+
+        // Get the ImageLoader through your singleton class.
+        mImageLoader = MySingleton.getInstance(getContext()).getImageLoader();
+        mImageLoader.get(IMAGE_URL, ImageLoader.getImageListener(mImageView,
+                R.mipmap.def_image, R.mipmap.err_image));
 
         return rootView;
 

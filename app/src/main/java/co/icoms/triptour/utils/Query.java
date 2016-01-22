@@ -1,16 +1,9 @@
 package co.icoms.triptour.utils;
 
-import com.parse.FindCallback;
-import com.parse.ParseException;
-import com.parse.ParseObject;
-import com.parse.ParseQuery;
-
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * Created by kenny on 21/1/16.
  */
+/*
 public class Query {
 
     public interface queryStringListener{
@@ -36,3 +29,4 @@ public class Query {
         }
     }
 }
+*/

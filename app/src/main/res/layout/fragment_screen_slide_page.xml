@@ -1,17 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/content"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:layout_height="wrap_content">
 
-    <TextView
-        android:id="@+id/tvIndex"
+    <ImageView android:id="@+id/imageView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:textColor="@color/colorPrimary"
-        android:textIsSelectable="false"
-        android:textSize="75sp" />
+        android:layout_height="wrap_content" />
 
-</LinearLayout>
+</RelativeLayout>
