@@ -1,5 +1,6 @@
 package co.icoms.triptour.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
@@ -54,7 +55,6 @@ public class PlaceActivity extends FragmentActivity {
         CirclePageIndicator pageIndicatorAmapala=(CirclePageIndicator)findViewById(R.id.circle_page_indicator_amapala);
         pageIndicatorAmapala.setViewPager(this.pagerAmapala);
 
-
         //CEIBA
         PlaceSlideAdapter adapterCeiba = new PlaceSlideAdapter(getSupportFragmentManager());
         adapterCeiba.addFragment(ScreenSlidePageFragment.newInstance("http://i.imgur.com/XYoSQfD.jpg", 0));
@@ -74,4 +74,9 @@ public class PlaceActivity extends FragmentActivity {
        moveTaskToBack(true);
     }
 
+    private void startMainActivity(String place){
+        Intent mainIntent = new Intent(getApplicationContext(), MainActivity.class);
+        mainIntent.putExtra("place", place);
+        startActivity(mainIntent);
+    }
 }

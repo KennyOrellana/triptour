@@ -4,6 +4,7 @@ package co.icoms.triptour.ui;
  * Created by kenny on 20/1/16.
  */
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -66,12 +67,20 @@ public class ScreenSlidePageFragment extends Fragment {
         final String IMAGE_URL = new String(url);
         mImageView = (ImageView) rootView.findViewById(R.id.imageView);
 
+        mImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //getActivity().finish();
+                Intent intent = new Intent(getContext(), MainActivity.class);
+                startActivity(intent);
+            }
+        });
+
         // Get the ImageLoader through your singleton class.
         mImageLoader = MySingleton.getInstance(getContext()).getImageLoader();
         mImageLoader.get(IMAGE_URL, ImageLoader.getImageListener(mImageView,
                 R.mipmap.def_image, R.mipmap.err_image));
 
         return rootView;
-
     }
 }
