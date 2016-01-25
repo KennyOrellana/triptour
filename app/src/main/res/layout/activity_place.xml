@@ -16,7 +16,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/place_message"
-                android:textSize="38sp"
+                android:textSize="20sp"
                 android:layout_gravity="center"
                 android:textAlignment="center"
                 android:padding="5dp"
@@ -26,20 +26,98 @@
                 android:shadowDx="5"
                 android:shadowDy="5"/>
 
-            <android.support.v4.view.ViewPager
-                android:id="@+id/viewPagerPlaceRoatan"
+            <RelativeLayout
                 android:layout_width="wrap_content"
-                android:layout_height="210dp"/>
+                android:layout_height="205dp"
+                android:gravity="center_horizontal">
 
-            <android.support.v4.view.ViewPager
-                android:id="@+id/viewPagerPlaceAmapala"
-                android:layout_width="wrap_content"
-                android:layout_height="210dp"/>
+                <android.support.v4.view.ViewPager
+                    android:id="@+id/viewPagerPlaceRoatan"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_below="@+id/circle_page_indicator_roatan"
+                    android:layout_alignParentTop="true"/>
 
-            <android.support.v4.view.ViewPager
-                android:id="@+id/viewPagerPlaceCeiba"
+                <com.viewpagerindicator.CirclePageIndicator
+                    android:id="@+id/circle_page_indicator_roatan"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="15dp"
+                    android:layout_alignParentBottom="true">
+                </com.viewpagerindicator.CirclePageIndicator>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="Roatán"
+                    android:textColor="@color/white"
+                    android:textAlignment="center"
+                    android:textSize="30sp"/>
+
+            </RelativeLayout>
+
+            <RelativeLayout
                 android:layout_width="wrap_content"
-                android:layout_height="210dp"/>
+                android:layout_height="205dp"
+                android:gravity="center_horizontal">
+
+                <android.support.v4.view.ViewPager
+                    android:id="@+id/viewPagerPlaceAmapala"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/circle_page_indicator_amapala"
+                    android:layout_alignParentTop="true"/>
+
+                <com.viewpagerindicator.CirclePageIndicator
+                    android:id="@+id/circle_page_indicator_amapala"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="15dp"
+                    android:layout_alignParentBottom="true">
+                </com.viewpagerindicator.CirclePageIndicator>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="Amapala"
+                    android:textColor="@color/white"
+                    android:textAlignment="center"
+                    android:textSize="30sp"/>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="205dp"
+                android:gravity="center_horizontal">
+
+                <android.support.v4.view.ViewPager
+                    android:id="@+id/viewPagerPlaceCeiba"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_below="@+id/circle_page_indicator_ceiba"
+                    android:layout_alignParentTop="true"/>
+
+                <com.viewpagerindicator.CirclePageIndicator
+                    android:id="@+id/circle_page_indicator_ceiba"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="15dp"
+                    android:layout_alignParentBottom="true">
+                </com.viewpagerindicator.CirclePageIndicator>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="La Ceiba"
+                    android:textColor="@color/white"
+                    android:textAlignment="center"
+                    android:textSize="30sp"/>
+
+            </RelativeLayout>
 
         </LinearLayout>
     </ScrollView>

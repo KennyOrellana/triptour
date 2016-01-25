@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 
+import com.viewpagerindicator.CirclePageIndicator;
+
 import co.icoms.triptour.R;
 import co.icoms.triptour.data.adapters.PlaceSlideAdapter;
 
@@ -35,6 +37,9 @@ public class PlaceActivity extends FragmentActivity {
         adapterRoatan.addFragment(ScreenSlidePageFragment.newInstance("http://i.imgur.com/AL5zF2K.jpg", 4));
         this.pagerRoatan.setAdapter(adapterRoatan);
 
+        CirclePageIndicator pageIndicatorRoatan=(CirclePageIndicator)findViewById(R.id.circle_page_indicator_roatan);
+        pageIndicatorRoatan.setViewPager(this.pagerRoatan);
+
         //AMAPALA
         PlaceSlideAdapter adapterAmapala = new PlaceSlideAdapter(getSupportFragmentManager());
         adapterAmapala.addFragment(ScreenSlidePageFragment.newInstance("http://i.imgur.com/hfsEUuX.jpg", 0));
@@ -46,6 +51,9 @@ public class PlaceActivity extends FragmentActivity {
         adapterAmapala.addFragment(ScreenSlidePageFragment.newInstance("http://i.imgur.com/UQJIVwI.jpg", 6));
         this.pagerAmapala.setAdapter(adapterAmapala);
 
+        CirclePageIndicator pageIndicatorAmapala=(CirclePageIndicator)findViewById(R.id.circle_page_indicator_amapala);
+        pageIndicatorAmapala.setViewPager(this.pagerAmapala);
+
 
         //CEIBA
         PlaceSlideAdapter adapterCeiba = new PlaceSlideAdapter(getSupportFragmentManager());
@@ -55,17 +63,15 @@ public class PlaceActivity extends FragmentActivity {
         adapterCeiba.addFragment(ScreenSlidePageFragment.newInstance("http://i.imgur.com/p19vgtC.jpg", 3));
         this.pagerCeiba.setAdapter(adapterCeiba);
 
+        CirclePageIndicator pageIndicatorCeiba=(CirclePageIndicator)findViewById(R.id.circle_page_indicator_ceiba);
+        pageIndicatorCeiba.setViewPager(this.pagerCeiba);
+
     }
 
     @Override
     public void onBackPressed() {
 
-        // Return to previous page when we press back button
-        if (this.pagerRoatan.getCurrentItem() == 0)
-            super.onBackPressed();
-        else
-            this.pagerRoatan.setCurrentItem(this.pagerRoatan.getCurrentItem() - 1);
-
+       moveTaskToBack(true);
     }
 
 }
