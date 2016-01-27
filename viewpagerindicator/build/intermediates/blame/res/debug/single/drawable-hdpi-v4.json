@@ -16,11 +16,35 @@
         "source": "/Users/kenny/Documents/development/TripTour/viewpagerindicator/src/main/res/drawable-hdpi/vpi__tab_selected_holo.9.png"
     },
     {
+        "merged": "/Users/kenny/AndroidStudioProjects/TripTour/viewpagerindicator/build/intermediates/res/merged/debug/drawable-hdpi-v4/vpi__tab_unselected_focused_holo.9.png",
+        "source": "/Users/kenny/AndroidStudioProjects/TripTour/viewpagerindicator/src/main/res/drawable-hdpi/vpi__tab_unselected_focused_holo.9.png"
+    },
+    {
         "merged": "/Users/kenny/Documents/development/TripTour/viewpagerindicator/build/intermediates/res/merged/debug/drawable-hdpi-v4/vpi__tab_unselected_pressed_holo.9.png",
         "source": "/Users/kenny/Documents/development/TripTour/viewpagerindicator/src/main/res/drawable-hdpi/vpi__tab_unselected_pressed_holo.9.png"
     },
     {
         "merged": "/Users/kenny/Documents/development/TripTour/viewpagerindicator/build/intermediates/res/merged/debug/drawable-hdpi-v4/vpi__tab_unselected_holo.9.png",
         "source": "/Users/kenny/Documents/development/TripTour/viewpagerindicator/src/main/res/drawable-hdpi/vpi__tab_unselected_holo.9.png"
+    },
+    {
+        "merged": "/Users/kenny/AndroidStudioProjects/TripTour/viewpagerindicator/build/intermediates/res/merged/debug/drawable-hdpi-v4/vpi__tab_selected_focused_holo.9.png",
+        "source": "/Users/kenny/AndroidStudioProjects/TripTour/viewpagerindicator/src/main/res/drawable-hdpi/vpi__tab_selected_focused_holo.9.png"
+    },
+    {
+        "merged": "/Users/kenny/AndroidStudioProjects/TripTour/viewpagerindicator/build/intermediates/res/merged/debug/drawable-hdpi-v4/vpi__tab_selected_pressed_holo.9.png",
+        "source": "/Users/kenny/AndroidStudioProjects/TripTour/viewpagerindicator/src/main/res/drawable-hdpi/vpi__tab_selected_pressed_holo.9.png"
+    },
+    {
+        "merged": "/Users/kenny/AndroidStudioProjects/TripTour/viewpagerindicator/build/intermediates/res/merged/debug/drawable-hdpi-v4/vpi__tab_unselected_holo.9.png",
+        "source": "/Users/kenny/AndroidStudioProjects/TripTour/viewpagerindicator/src/main/res/drawable-hdpi/vpi__tab_unselected_holo.9.png"
+    },
+    {
+        "merged": "/Users/kenny/AndroidStudioProjects/TripTour/viewpagerindicator/build/intermediates/res/merged/debug/drawable-hdpi-v4/vpi__tab_selected_holo.9.png",
+        "source": "/Users/kenny/AndroidStudioProjects/TripTour/viewpagerindicator/src/main/res/drawable-hdpi/vpi__tab_selected_holo.9.png"
+    },
+    {
+        "merged": "/Users/kenny/AndroidStudioProjects/TripTour/viewpagerindicator/build/intermediates/res/merged/debug/drawable-hdpi-v4/vpi__tab_unselected_pressed_holo.9.png",
+        "source": "/Users/kenny/AndroidStudioProjects/TripTour/viewpagerindicator/src/main/res/drawable-hdpi/vpi__tab_unselected_pressed_holo.9.png"
     }
 ]
