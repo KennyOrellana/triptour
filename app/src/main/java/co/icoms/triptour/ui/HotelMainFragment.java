@@ -30,15 +30,17 @@ public class HotelMainFragment extends Fragment {
     int firstVisibleItem, visibleItemCount, totalItemCount;
     String tableHotel;
 
+
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        tableHotel=MainActivity.place;
+        //tableHotel="ceiba";
+        tableHotel=getArguments().getString("place");
 
         if(tableHotel.equals("roatan"))
             tableHotel="hotels";

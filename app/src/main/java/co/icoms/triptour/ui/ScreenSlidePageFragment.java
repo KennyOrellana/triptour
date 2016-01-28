@@ -20,8 +20,9 @@ public class ScreenSlidePageFragment extends Fragment {
 
     private String url;
     private int index;
+    private String place;
 
-    public static ScreenSlidePageFragment newInstance(String url, int index) {
+    public static ScreenSlidePageFragment newInstance(String url, int index, String place) {
 
         // Instantiate a new fragment
         ScreenSlidePageFragment fragment = new ScreenSlidePageFragment();
@@ -30,6 +31,7 @@ public class ScreenSlidePageFragment extends Fragment {
         Bundle bundle = new Bundle();
         bundle.putString(URL, url);
         bundle.putInt(INDEX, index);
+        bundle.putString("place", place);
         fragment.setArguments(bundle);
         fragment.setRetainInstance(true);
 
@@ -46,6 +48,8 @@ public class ScreenSlidePageFragment extends Fragment {
                 URL) : "http://news.aroundcommodities.com/assets/backgrounds/photo-default-th.png";
         this.index = (getArguments() != null) ? getArguments().getInt(INDEX)
                 : -1;
+        this.place=(getArguments() != null) ? getArguments().getString("place")
+                : "roatan";
 
     }
 
@@ -66,9 +70,9 @@ public class ScreenSlidePageFragment extends Fragment {
         mImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //getActivity().finish();
-                Intent intent = new Intent(getContext(), MainActivity.class);
-                startActivity(intent);
+                Intent mainIntent = new Intent(getContext(), MainActivity.class);
+                mainIntent.putExtra("place", place);
+                startActivity(mainIntent);
             }
         });
 

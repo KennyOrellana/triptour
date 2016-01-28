@@ -12,15 +12,12 @@ import co.icoms.triptour.data.adapters.MainTabAdapter;
 public class MainActivity extends AppCompatActivity {
     TabLayout tabLayoutMenu;
     ViewPager viewPager;
-    public static String place;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Resources res=getResources();
-
-        this.place=getIntent().getStringExtra("place");
 
         tabLayoutMenu=(TabLayout)findViewById(R.id.tab_layout_menu);
 
@@ -32,7 +29,11 @@ public class MainActivity extends AppCompatActivity {
 
         viewPager = (ViewPager) findViewById(R.id.viewPagerMain);
         MainTabAdapter adapter = new MainTabAdapter(getSupportFragmentManager(), tabLayoutMenu.getTabCount());
+
+        adapter.setPlace(getIntent().getStringExtra("place"));
+
         viewPager.setAdapter(adapter);
+
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayoutMenu));
         tabLayoutMenu.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override

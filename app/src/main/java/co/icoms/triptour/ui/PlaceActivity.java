@@ -1,6 +1,5 @@
 package co.icoms.triptour.ui;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
@@ -31,11 +30,11 @@ public class PlaceActivity extends FragmentActivity {
         //ROATAN  Create an adapter with the fragments we show on the ViewPager
 
         PlaceSlideAdapter adapterRoatan = new PlaceSlideAdapter(getSupportFragmentManager());
-        adapterRoatan.addFragment(ScreenSlidePageFragment.newInstance("http://i.imgur.com/3v1ZKgg.jpg", 0));
-        adapterRoatan.addFragment(ScreenSlidePageFragment.newInstance("http://i.imgur.com/wRtO8SJ.jpg", 1));
-        adapterRoatan.addFragment(ScreenSlidePageFragment.newInstance("http://i.imgur.com/0bgrTfw.jpg", 2));
-        adapterRoatan.addFragment(ScreenSlidePageFragment.newInstance("http://i.imgur.com/t29Iv1x.jpg", 3));
-        adapterRoatan.addFragment(ScreenSlidePageFragment.newInstance("http://i.imgur.com/AL5zF2K.jpg", 4));
+        adapterRoatan.addFragment(ScreenSlidePageFragment.newInstance("http://i.imgur.com/3v1ZKgg.jpg", 0,"roatan"));
+        adapterRoatan.addFragment(ScreenSlidePageFragment.newInstance("http://i.imgur.com/wRtO8SJ.jpg", 1,"roatan"));
+        adapterRoatan.addFragment(ScreenSlidePageFragment.newInstance("http://i.imgur.com/0bgrTfw.jpg", 2,"roatan"));
+        adapterRoatan.addFragment(ScreenSlidePageFragment.newInstance("http://i.imgur.com/t29Iv1x.jpg", 3,"roatan"));
+        adapterRoatan.addFragment(ScreenSlidePageFragment.newInstance("http://i.imgur.com/AL5zF2K.jpg", 4,"roatan"));
         this.pagerRoatan.setAdapter(adapterRoatan);
 
         CirclePageIndicator pageIndicatorRoatan=(CirclePageIndicator)findViewById(R.id.circle_page_indicator_roatan);
@@ -43,13 +42,13 @@ public class PlaceActivity extends FragmentActivity {
 
         //AMAPALA
         PlaceSlideAdapter adapterAmapala = new PlaceSlideAdapter(getSupportFragmentManager());
-        adapterAmapala.addFragment(ScreenSlidePageFragment.newInstance("http://i.imgur.com/hfsEUuX.jpg", 0));
-        adapterAmapala.addFragment(ScreenSlidePageFragment.newInstance("http://i.imgur.com/ksUvZyf.jpg", 1));
-        adapterAmapala.addFragment(ScreenSlidePageFragment.newInstance("http://i.imgur.com/uM2gEjh.jpg", 2));
-        adapterAmapala.addFragment(ScreenSlidePageFragment.newInstance("http://i.imgur.com/CicnRWh.jpg", 3));
-        adapterAmapala.addFragment(ScreenSlidePageFragment.newInstance("http://i.imgur.com/iK7Qwis.jpg", 4));
-        adapterAmapala.addFragment(ScreenSlidePageFragment.newInstance("http://i.imgur.com/bcvLmJv.jpg", 5));
-        adapterAmapala.addFragment(ScreenSlidePageFragment.newInstance("http://i.imgur.com/UQJIVwI.jpg", 6));
+        adapterAmapala.addFragment(ScreenSlidePageFragment.newInstance("http://i.imgur.com/hfsEUuX.jpg", 0,"amapala"));
+        adapterAmapala.addFragment(ScreenSlidePageFragment.newInstance("http://i.imgur.com/ksUvZyf.jpg", 1,"amapala"));
+        adapterAmapala.addFragment(ScreenSlidePageFragment.newInstance("http://i.imgur.com/uM2gEjh.jpg", 2,"amapala"));
+        adapterAmapala.addFragment(ScreenSlidePageFragment.newInstance("http://i.imgur.com/CicnRWh.jpg", 3,"amapala"));
+        adapterAmapala.addFragment(ScreenSlidePageFragment.newInstance("http://i.imgur.com/iK7Qwis.jpg", 4,"amapala"));
+        adapterAmapala.addFragment(ScreenSlidePageFragment.newInstance("http://i.imgur.com/bcvLmJv.jpg", 5,"amapala"));
+        adapterAmapala.addFragment(ScreenSlidePageFragment.newInstance("http://i.imgur.com/UQJIVwI.jpg", 6,"amapala"));
         this.pagerAmapala.setAdapter(adapterAmapala);
 
         CirclePageIndicator pageIndicatorAmapala=(CirclePageIndicator)findViewById(R.id.circle_page_indicator_amapala);
@@ -57,10 +56,10 @@ public class PlaceActivity extends FragmentActivity {
 
         //CEIBA
         PlaceSlideAdapter adapterCeiba = new PlaceSlideAdapter(getSupportFragmentManager());
-        adapterCeiba.addFragment(ScreenSlidePageFragment.newInstance("http://i.imgur.com/XYoSQfD.jpg", 0));
-        adapterCeiba.addFragment(ScreenSlidePageFragment.newInstance("http://i.imgur.com/ZF35tMX.jpg", 1));
-        adapterCeiba.addFragment(ScreenSlidePageFragment.newInstance("http://i.imgur.com/rOsXhgL.jpg", 2));
-        adapterCeiba.addFragment(ScreenSlidePageFragment.newInstance("http://i.imgur.com/p19vgtC.jpg", 3));
+        adapterCeiba.addFragment(ScreenSlidePageFragment.newInstance("http://i.imgur.com/XYoSQfD.jpg", 0,"ceiba"));
+        adapterCeiba.addFragment(ScreenSlidePageFragment.newInstance("http://i.imgur.com/ZF35tMX.jpg", 1,"ceiba"));
+        adapterCeiba.addFragment(ScreenSlidePageFragment.newInstance("http://i.imgur.com/rOsXhgL.jpg", 2,"ceiba"));
+        adapterCeiba.addFragment(ScreenSlidePageFragment.newInstance("http://i.imgur.com/p19vgtC.jpg", 3,"ceiba"));
         this.pagerCeiba.setAdapter(adapterCeiba);
 
         CirclePageIndicator pageIndicatorCeiba=(CirclePageIndicator)findViewById(R.id.circle_page_indicator_ceiba);
@@ -72,11 +71,5 @@ public class PlaceActivity extends FragmentActivity {
     public void onBackPressed() {
 
        moveTaskToBack(true);
-    }
-
-    private void startMainActivity(String place){
-        Intent mainIntent = new Intent(getApplicationContext(), MainActivity.class);
-        mainIntent.putExtra("place", place);
-        startActivity(mainIntent);
     }
 }

@@ -1,5 +1,6 @@
 package co.icoms.triptour.data.adapters;
 
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -11,6 +12,15 @@ import co.icoms.triptour.ui.RestaurantMainFragment;
 
 public class MainTabAdapter extends FragmentStatePagerAdapter {
     int mNumOfTabs;
+    String place;
+
+    public String getPlace() {
+        return place;
+    }
+
+    public void setPlace(String place) {
+        this.place = place;
+    }
 
     public MainTabAdapter(FragmentManager fm, int NumOfTabs) {
         super(fm);
@@ -19,19 +29,25 @@ public class MainTabAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
+        Bundle bundle = new Bundle();
+        bundle.putString("place", this.place);
 
         switch (position) {
             case 0:
                 FoursquareMainFragment foursquareTab = new FoursquareMainFragment();
+                foursquareTab.setArguments(bundle);
                 return foursquareTab;
             case 1:
                 HotelMainFragment hotelTab = new HotelMainFragment();
+                hotelTab.setArguments(bundle);
                 return hotelTab;
             case 2:
                 RestaurantMainFragment restaurantTab = new RestaurantMainFragment();
+                restaurantTab.setArguments(bundle);
                 return restaurantTab;
             case 3:
                 ActivitiesMainFragment activitiesTab = new ActivitiesMainFragment();
+                activitiesTab.setArguments(bundle);
                 return activitiesTab;
             default:
                 return null;
