@@ -4,10 +4,14 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.parse.FindCallback;
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,24 +28,27 @@ public class HotelMainFragment extends Fragment {
     private boolean loading = true;
     private int visibleThreshold = 5;
     int firstVisibleItem, visibleItemCount, totalItemCount;
+    String tableHotel;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-
-        listHotel.add(new HotelCell("Mayan Princess",
-                "http://www.hondurastips.hn/wp-content/uploads/2011/02/MAYAN-PRINCESS-2.jpg",
-                100,
-                5));
-        listHotel.add(new HotelCell("Anthony's Key Resort",
-                "http://www.destination360.com/contents/pictures/roatan/anthonys-key-resort-bungalows.jpg",
-                90,
-                5));
 
         super.onCreate(savedInstanceState);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        tableHotel=MainActivity.place;
+
+        if(tableHotel.equals("roatan"))
+            tableHotel="hotels";
+        else
+            tableHotel="hotels_"+tableHotel;
+
+        for(int k=1;k<6;k++) {
+            addItemHotel(k);
+        }
+
         return inflater.inflate(R.layout.hotel_main_fragment, container, false);
     }
 
@@ -54,7 +61,6 @@ public class HotelMainFragment extends Fragment {
         recyclerViewHotel.setLayoutManager(llm);
         recyclerViewHotel.setAdapter(adapterHotel);
 
-        //recyclerViewHotel.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL_LIST));
         recyclerViewHotel.setHasFixedSize(true);
 
         recyclerViewHotel.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -74,21 +80,28 @@ public class HotelMainFragment extends Fragment {
                 }
                 if (!loading && (totalItemCount - visibleItemCount)
                         <= (firstVisibleItem + visibleThreshold)) {
-                    // End has been reached
 
-                    Log.i("Yaeye!", "end called");
-                    listHotel.add(new HotelCell("Mayan Princess",
-                            "http://www.hondurastips.hn/wp-content/uploads/2011/02/MAYAN-PRINCESS-2.jpg",
-                            llm.getItemCount(),
-                            llm.getItemCount()));
-
-                    // Do something
-                    Log.i("Yaeye!", String.valueOf(llm.getItemCount()));
                     loading = true;
-                    adapterHotel.notifyDataSetChanged();
+                    addItemHotel(1+totalItemCount);
+                }
+            }
+        });
+    }
 
-                    //adapterHotel = new HotelAdapter(listHotel);
-                    //recyclerViewHotel.setAdapter(adapterHotel);
+    void addItemHotel(int n){
+        final Integer number = new Integer(n);
+
+        ParseQuery query = new ParseQuery(this.tableHotel);
+        query.whereEqualTo("number", number);
+        query.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> item, ParseException e) {
+                if (item != null && item.size() > 0) {
+                    listHotel.add(new HotelCell(item.get(0).getString("name"),
+                                                item.get(0).getString("url"),
+                                                item.get(0).getInt("price"),
+                                                item.get(0).getInt("stars")));
+                    adapterHotel.notifyDataSetChanged();
                 }
             }
         });

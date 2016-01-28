@@ -1,9 +1,5 @@
 package co.icoms.triptour.ui;
 
-/**
- * Created by kenny on 20/1/16.
- */
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;

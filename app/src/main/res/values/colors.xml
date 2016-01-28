@@ -27,6 +27,8 @@
     <color name="navy">#000080</color>
     <color name="black">#000000</color>
     <color name="gold">#FD70</color>
+    <color name="gray45">#80808073</color>
+    <color name="black45">#73000000</color>
 
     <integer-array name="androidcolors">
         <item>@color/blue</item>

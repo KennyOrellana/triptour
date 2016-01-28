@@ -12,7 +12,7 @@ import co.icoms.triptour.data.adapters.MainTabAdapter;
 public class MainActivity extends AppCompatActivity {
     TabLayout tabLayoutMenu;
     ViewPager viewPager;
-    private String place;
+    public static String place;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
