@@ -5,10 +5,10 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
-import co.icoms.triptour.ui.ActivitiesMainFragment;
-import co.icoms.triptour.ui.FoursquareMainFragment;
-import co.icoms.triptour.ui.HotelMainFragment;
-import co.icoms.triptour.ui.RestaurantMainFragment;
+import co.icoms.triptour.ui.MainActivitiesFragment;
+import co.icoms.triptour.ui.MainFoursquareFragment;
+import co.icoms.triptour.ui.MainHotelFragment;
+import co.icoms.triptour.ui.MainRestaurantFragment;
 
 public class MainTabAdapter extends FragmentStatePagerAdapter {
     int mNumOfTabs;
@@ -34,19 +34,19 @@ public class MainTabAdapter extends FragmentStatePagerAdapter {
 
         switch (position) {
             case 0:
-                FoursquareMainFragment foursquareTab = new FoursquareMainFragment();
+                MainFoursquareFragment foursquareTab = new MainFoursquareFragment();
                 foursquareTab.setArguments(bundle);
                 return foursquareTab;
             case 1:
-                HotelMainFragment hotelTab = new HotelMainFragment();
+                MainHotelFragment hotelTab = new MainHotelFragment();
                 hotelTab.setArguments(bundle);
                 return hotelTab;
             case 2:
-                RestaurantMainFragment restaurantTab = new RestaurantMainFragment();
+                MainRestaurantFragment restaurantTab = new MainRestaurantFragment();
                 restaurantTab.setArguments(bundle);
                 return restaurantTab;
             case 3:
-                ActivitiesMainFragment activitiesTab = new ActivitiesMainFragment();
+                MainActivitiesFragment activitiesTab = new MainActivitiesFragment();
                 activitiesTab.setArguments(bundle);
                 return activitiesTab;
             default:

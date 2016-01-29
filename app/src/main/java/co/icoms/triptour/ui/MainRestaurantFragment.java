@@ -17,18 +17,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 import co.icoms.triptour.R;
-import co.icoms.triptour.data.adapters.ActivitiesAdapter;
+import co.icoms.triptour.data.adapters.MainRestaurantAdapter;
 
-public class ActivitiesMainFragment extends Fragment {
-    private RecyclerView recyclerViewActivities;
-    List<ActivitiesCell> listActivities= new ArrayList<>();
-    ActivitiesAdapter adapterActivities = new ActivitiesAdapter(listActivities, getContext());
+public class MainRestaurantFragment extends Fragment {
+    private RecyclerView recyclerViewRestaurant;
+    List<MainRestaurantCell> listRestaurant= new ArrayList<>();
+    MainRestaurantAdapter adapterRestaurant = new MainRestaurantAdapter(listRestaurant, getContext());
 
     private int previousTotal = 0;
     private boolean loading = true;
     private int visibleThreshold = 5;
     int firstVisibleItem, visibleItemCount, totalItemCount;
-    String tableActivities;
+    String tableRestaurant;
 
 
 
@@ -39,27 +39,28 @@ public class ActivitiesMainFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        tableActivities="act_"+getArguments().getString("place");
+        //tableRestaurant="ceiba";
+        tableRestaurant="rest_"+getArguments().getString("place");
 
         for(int k=1;k<6;k++) {
-            addItemActivities(k);
+            addItemRestaurant(k);
         }
 
-        return inflater.inflate(R.layout.activities_main_fragment, container, false);
+        return inflater.inflate(R.layout.fragment_main_restaurant, container, false);
     }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        recyclerViewActivities = (RecyclerView) this.getView().findViewById(R.id.recycler_view_activities);
+        recyclerViewRestaurant = (RecyclerView) this.getView().findViewById(R.id.recycler_view_restaurant);
         final LinearLayoutManager llm = new LinearLayoutManager(getContext());
-        recyclerViewActivities.setLayoutManager(llm);
-        recyclerViewActivities.setAdapter(adapterActivities);
+        recyclerViewRestaurant.setLayoutManager(llm);
+        recyclerViewRestaurant.setAdapter(adapterRestaurant);
 
-        recyclerViewActivities.setHasFixedSize(true);
+        recyclerViewRestaurant.setHasFixedSize(true);
 
-        recyclerViewActivities.addOnScrollListener(new RecyclerView.OnScrollListener() {
+        recyclerViewRestaurant.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
@@ -78,25 +79,26 @@ public class ActivitiesMainFragment extends Fragment {
                         <= (firstVisibleItem + visibleThreshold)) {
 
                     loading = true;
-                    addItemActivities(1 + totalItemCount);
+                    addItemRestaurant(1+totalItemCount);
                 }
             }
         });
     }
 
-    void addItemActivities(int n){
+    void addItemRestaurant(int n){
         final Integer number = new Integer(n);
 
-        ParseQuery query = new ParseQuery(this.tableActivities);
+        ParseQuery query = new ParseQuery(this.tableRestaurant);
         query.whereEqualTo("number", number);
         query.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> item, ParseException e) {
                 if (item != null && item.size() > 0) {
-                    listActivities.add(new ActivitiesCell(item.get(0).getString("name"),
+                    listRestaurant.add(new MainRestaurantCell(item.get(0).getString("name"),
                                                 item.get(0).getString("url"),
+                                                String.valueOf(item.get(0).getInt("min"))+" - "+String.valueOf(item.get(0).getInt("max")),
                                                 item.get(0).getInt("stars")));
-                    adapterActivities.notifyDataSetChanged();
+                    adapterRestaurant.notifyDataSetChanged();
                 }
             }
         });

@@ -15,22 +15,22 @@ import com.android.volley.toolbox.NetworkImageView;
 import java.util.List;
 
 import co.icoms.triptour.R;
-import co.icoms.triptour.ui.RestaurantCell;
+import co.icoms.triptour.ui.MainRestaurantCell;
 import co.icoms.triptour.utils.MySingleton;
 
-public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.RestaurantViewHolder>{
+public class MainRestaurantAdapter extends RecyclerView.Adapter<MainRestaurantAdapter.RestaurantViewHolder>{
 
-    public List<RestaurantCell> Restaurants;
+    public List<MainRestaurantCell> Restaurants;
     private Context context;
 
-    public RestaurantAdapter(List<RestaurantCell> Restaurants, Context context){
+    public MainRestaurantAdapter(List<MainRestaurantCell> Restaurants, Context context){
         this.Restaurants = Restaurants;
         this.context=context;
     }
 
     @Override
     public RestaurantViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.restaurant_cell, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.cell_restaurant, parent, false);
         RestaurantViewHolder RestaurantViewHolder = new RestaurantViewHolder(view);
         return RestaurantViewHolder;
     }

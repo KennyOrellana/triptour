@@ -5,7 +5,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
-import co.icoms.triptour.ui.FoursquareMainFragment;
+import co.icoms.triptour.ui.MainFoursquareFragment;
 
 public class DetailHotelTabAdapter extends FragmentStatePagerAdapter {
     int mNumOfTabs;
@@ -27,24 +27,23 @@ public class DetailHotelTabAdapter extends FragmentStatePagerAdapter {
     @Override
     public Fragment getItem(int position) {
         Bundle bundle = new Bundle();
-        //bundle.putString("place", this.place);
 
         switch (position) {
             case 0:
-                FoursquareMainFragment foursquareTab = new FoursquareMainFragment();
+                MainFoursquareFragment foursquareTab = new MainFoursquareFragment();
                 foursquareTab.setArguments(bundle);
                 return foursquareTab;
             /*
             case 1:
-                HotelMainFragment hotelTab = new HotelMainFragment();
+                MainHotelFragment hotelTab = new MainHotelFragment();
                 hotelTab.setArguments(bundle);
                 return hotelTab;
             case 2:
-                RestaurantMainFragment restaurantTab = new RestaurantMainFragment();
+                MainRestaurantFragment restaurantTab = new MainRestaurantFragment();
                 restaurantTab.setArguments(bundle);
                 return restaurantTab;
             case 3:
-                ActivitiesMainFragment activitiesTab = new ActivitiesMainFragment();
+                MainActivitiesFragment activitiesTab = new MainActivitiesFragment();
                 activitiesTab.setArguments(bundle);
                 return activitiesTab;
                 */

@@ -1,6 +1,5 @@
 package co.icoms.triptour.ui;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -18,63 +17,49 @@ import java.util.ArrayList;
 import java.util.List;
 
 import co.icoms.triptour.R;
-import co.icoms.triptour.data.adapters.HotelAdapter;
-import co.icoms.triptour.utils.Final;
+import co.icoms.triptour.data.adapters.MainActivitiesAdapter;
 
-public class HotelMainFragment extends Fragment implements HotelAdapter.Listener{
-    private RecyclerView recyclerViewHotel;
-    List<HotelCell> listHotel= new ArrayList<>();
-    HotelAdapter adapterHotel = new HotelAdapter(listHotel, getContext(), this);
+public class MainActivitiesFragment extends Fragment {
+    private RecyclerView recyclerViewActivities;
+    List<MainActivitiesCell> listActivities= new ArrayList<>();
+    MainActivitiesAdapter adapterActivities = new MainActivitiesAdapter(listActivities, getContext());
 
     private int previousTotal = 0;
     private boolean loading = true;
     private int visibleThreshold = 5;
     int firstVisibleItem, visibleItemCount, totalItemCount;
-    String tableHotel;
+    String tableActivities;
 
 
-    @Override
-    public void onClick(Bundle bundle) {
-        Intent intent = new Intent(getContext(), DetailHotelActivity.class);
-        intent.putExtra(Final.DataHotel.DATA,bundle);
-        startActivity(intent);
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        adapterHotel.setPlace(getArguments().getString("place"));
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        //tableHotel="ceiba";
-        tableHotel=getArguments().getString("place");
-
-        if(tableHotel.equals("roatan"))
-            tableHotel="hotels";
-        else
-            tableHotel="hotels_"+tableHotel;
+        tableActivities="act_"+getArguments().getString("place");
 
         for(int k=1;k<6;k++) {
-            addItemHotel(k);
+            addItemActivities(k);
         }
 
-        return inflater.inflate(R.layout.hotel_main_fragment, container, false);
+        return inflater.inflate(R.layout.fragment_main_activities, container, false);
     }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        recyclerViewHotel = (RecyclerView) this.getView().findViewById(R.id.recycler_view_hotel);
+        recyclerViewActivities = (RecyclerView) this.getView().findViewById(R.id.recycler_view_activities);
         final LinearLayoutManager llm = new LinearLayoutManager(getContext());
-        recyclerViewHotel.setLayoutManager(llm);
-        recyclerViewHotel.setAdapter(adapterHotel);
+        recyclerViewActivities.setLayoutManager(llm);
+        recyclerViewActivities.setAdapter(adapterActivities);
 
-        recyclerViewHotel.setHasFixedSize(true);
+        recyclerViewActivities.setHasFixedSize(true);
 
-        recyclerViewHotel.addOnScrollListener(new RecyclerView.OnScrollListener() {
+        recyclerViewActivities.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
@@ -93,27 +78,25 @@ public class HotelMainFragment extends Fragment implements HotelAdapter.Listener
                         <= (firstVisibleItem + visibleThreshold)) {
 
                     loading = true;
-                    addItemHotel(1+totalItemCount);
+                    addItemActivities(1 + totalItemCount);
                 }
             }
         });
     }
 
-    void addItemHotel(int n){
+    void addItemActivities(int n){
         final Integer number = new Integer(n);
 
-        ParseQuery query = new ParseQuery(this.tableHotel);
+        ParseQuery query = new ParseQuery(this.tableActivities);
         query.whereEqualTo("number", number);
         query.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> item, ParseException e) {
                 if (item != null && item.size() > 0) {
-                    listHotel.add(new HotelCell(number,
-                                                item.get(0).getString("name"),
+                    listActivities.add(new MainActivitiesCell(item.get(0).getString("name"),
                                                 item.get(0).getString("url"),
-                                                item.get(0).getInt("price"),
                                                 item.get(0).getInt("stars")));
-                    adapterHotel.notifyDataSetChanged();
+                    adapterActivities.notifyDataSetChanged();
                 }
             }
         });

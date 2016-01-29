@@ -16,13 +16,13 @@ import com.android.volley.toolbox.NetworkImageView;
 import java.util.List;
 
 import co.icoms.triptour.R;
-import co.icoms.triptour.ui.HotelCell;
+import co.icoms.triptour.ui.MainHotelCell;
 import co.icoms.triptour.utils.Final;
 import co.icoms.triptour.utils.MySingleton;
 
-public class HotelAdapter extends RecyclerView.Adapter<HotelAdapter.HotelViewHolder>{
+public class MainHotelAdapter extends RecyclerView.Adapter<MainHotelAdapter.HotelViewHolder>{
 
-    public List<HotelCell> hotels;
+    public List<MainHotelCell> hotels;
     private Context context;
     Listener listener;
 
@@ -32,7 +32,7 @@ public class HotelAdapter extends RecyclerView.Adapter<HotelAdapter.HotelViewHol
 
     private String place;
 
-    public HotelAdapter(List<HotelCell> hotels, Context context, Listener listener){
+    public MainHotelAdapter(List<MainHotelCell> hotels, Context context, Listener listener){
         this.hotels = hotels;
         this.context=context;
         this.listener=listener;
@@ -44,7 +44,7 @@ public class HotelAdapter extends RecyclerView.Adapter<HotelAdapter.HotelViewHol
 
     @Override
     public HotelViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.hotel_cell, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.cell_hotel, parent, false);
         HotelViewHolder hotelViewHolder = new HotelViewHolder(view);
         return hotelViewHolder;
     }
@@ -86,6 +86,7 @@ public class HotelAdapter extends RecyclerView.Adapter<HotelAdapter.HotelViewHol
             public void onClick(View v) {
                 Bundle bundle=new Bundle();
                 bundle.putString(Final.DataHotel.PLACE, place);
+                bundle.putString(Final.DataHotel.NAME, hotels.get(position).getName());
                 bundle.putInt(Final.DataHotel.ID, hotels.get(position).getId());
                 bundle.putString(Final.DataHotel.IMAGE, hotels.get(position).getPhotoUrl());
                 bundle.putInt(Final.DataHotel.PRICE, hotels.get(position).getPrice());

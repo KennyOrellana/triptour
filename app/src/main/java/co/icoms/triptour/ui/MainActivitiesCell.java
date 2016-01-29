@@ -1,11 +1,11 @@
 package co.icoms.triptour.ui;
 
-public class ActivitiesCell {
+public class MainActivitiesCell {
     String name;
     String photoUrl;
     int calification;
 
-    ActivitiesCell(String name, String photoUrl, int calification){
+    MainActivitiesCell(String name, String photoUrl, int calification){
         this.name=name;
         this.photoUrl=photoUrl;
         this.calification=calification;

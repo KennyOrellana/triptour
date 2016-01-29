@@ -1,5 +1,6 @@
 package co.icoms.triptour.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -17,50 +18,63 @@ import java.util.ArrayList;
 import java.util.List;
 
 import co.icoms.triptour.R;
-import co.icoms.triptour.data.adapters.RestaurantAdapter;
+import co.icoms.triptour.data.adapters.MainHotelAdapter;
+import co.icoms.triptour.utils.Final;
 
-public class RestaurantMainFragment extends Fragment {
-    private RecyclerView recyclerViewRestaurant;
-    List<RestaurantCell> listRestaurant= new ArrayList<>();
-    RestaurantAdapter adapterRestaurant = new RestaurantAdapter(listRestaurant, getContext());
+public class MainHotelFragment extends Fragment implements MainHotelAdapter.Listener{
+    private RecyclerView recyclerViewHotel;
+    List<MainHotelCell> listHotel= new ArrayList<>();
+    MainHotelAdapter adapterHotel = new MainHotelAdapter(listHotel, getContext(), this);
 
     private int previousTotal = 0;
     private boolean loading = true;
     private int visibleThreshold = 5;
     int firstVisibleItem, visibleItemCount, totalItemCount;
-    String tableRestaurant;
+    String tableHotel;
 
 
+    @Override
+    public void onClick(Bundle bundle) {
+        Intent intent = new Intent(getContext(), DetailHotelActivity.class);
+        intent.putExtra(Final.DataHotel.DATA,bundle);
+        startActivity(intent);
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        adapterHotel.setPlace(getArguments().getString("place"));
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        //tableRestaurant="ceiba";
-        tableRestaurant="rest_"+getArguments().getString("place");
+        //tableHotel="ceiba";
+        tableHotel=getArguments().getString("place");
+
+        if(tableHotel.equals("roatan"))
+            tableHotel="hotels";
+        else
+            tableHotel="hotels_"+tableHotel;
 
         for(int k=1;k<6;k++) {
-            addItemRestaurant(k);
+            addItemHotel(k);
         }
 
-        return inflater.inflate(R.layout.restaurant_main_fragment, container, false);
+        return inflater.inflate(R.layout.fragment_main_hotel, container, false);
     }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        recyclerViewRestaurant = (RecyclerView) this.getView().findViewById(R.id.recycler_view_restaurant);
+        recyclerViewHotel = (RecyclerView) this.getView().findViewById(R.id.recycler_view_hotel);
         final LinearLayoutManager llm = new LinearLayoutManager(getContext());
-        recyclerViewRestaurant.setLayoutManager(llm);
-        recyclerViewRestaurant.setAdapter(adapterRestaurant);
+        recyclerViewHotel.setLayoutManager(llm);
+        recyclerViewHotel.setAdapter(adapterHotel);
 
-        recyclerViewRestaurant.setHasFixedSize(true);
+        recyclerViewHotel.setHasFixedSize(true);
 
-        recyclerViewRestaurant.addOnScrollListener(new RecyclerView.OnScrollListener() {
+        recyclerViewHotel.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
@@ -79,26 +93,27 @@ public class RestaurantMainFragment extends Fragment {
                         <= (firstVisibleItem + visibleThreshold)) {
 
                     loading = true;
-                    addItemRestaurant(1+totalItemCount);
+                    addItemHotel(1+totalItemCount);
                 }
             }
         });
     }
 
-    void addItemRestaurant(int n){
+    void addItemHotel(int n){
         final Integer number = new Integer(n);
 
-        ParseQuery query = new ParseQuery(this.tableRestaurant);
+        ParseQuery query = new ParseQuery(this.tableHotel);
         query.whereEqualTo("number", number);
         query.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> item, ParseException e) {
                 if (item != null && item.size() > 0) {
-                    listRestaurant.add(new RestaurantCell(item.get(0).getString("name"),
+                    listHotel.add(new MainHotelCell(number,
+                                                item.get(0).getString("name"),
                                                 item.get(0).getString("url"),
-                                                String.valueOf(item.get(0).getInt("min"))+" - "+String.valueOf(item.get(0).getInt("max")),
+                                                item.get(0).getInt("price"),
                                                 item.get(0).getInt("stars")));
-                    adapterRestaurant.notifyDataSetChanged();
+                    adapterHotel.notifyDataSetChanged();
                 }
             }
         });

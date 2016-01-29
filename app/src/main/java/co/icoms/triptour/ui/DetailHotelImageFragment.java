@@ -17,13 +17,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import co.icoms.triptour.R;
-import co.icoms.triptour.data.adapters.HotelAdapter;
+import co.icoms.triptour.data.adapters.MainHotelAdapter;
 
-public class DetailHotelImageFragment extends Fragment implements HotelAdapter.Listener{
+public class DetailHotelImageFragment extends Fragment implements MainHotelAdapter.Listener{
     private RecyclerView recyclerViewHotel;
-    List<HotelCell> listHotel= new ArrayList<>();
+    List<MainHotelCell> listHotel= new ArrayList<>();
     //TODO quitar el string
-    HotelAdapter adapterHotel = new HotelAdapter(listHotel, getContext(),this);
+    MainHotelAdapter adapterHotel = new MainHotelAdapter(listHotel, getContext(),this);
 
     private int previousTotal = 0;
     private boolean loading = true;
@@ -56,7 +56,7 @@ public class DetailHotelImageFragment extends Fragment implements HotelAdapter.L
             addItemHotel(k);
         }
 
-        return inflater.inflate(R.layout.hotel_main_fragment, container, false);
+        return inflater.inflate(R.layout.fragment_main_hotel, container, false);
     }
 
     @Override
@@ -105,7 +105,7 @@ public class DetailHotelImageFragment extends Fragment implements HotelAdapter.L
             @Override
             public void done(List<ParseObject> item, ParseException e) {
                 if (item != null && item.size() > 0) {
-                    listHotel.add(new HotelCell(number,
+                    listHotel.add(new MainHotelCell(number,
                                                 item.get(0).getString("name"),
                                                 item.get(0).getString("url"),
                                                 item.get(0).getInt("price"),

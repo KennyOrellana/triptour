@@ -11,10 +11,10 @@ import co.icoms.triptour.R;
 /**
  * Created by kenny on 25/1/16.
  */
-public class FoursquareMainFragment extends Fragment {
+public class MainFoursquareFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.foursquare_main_fragment, container, false);
+        return inflater.inflate(R.layout.fragment_main_foursquare, container, false);
     }
 }

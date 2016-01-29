@@ -13,7 +13,7 @@ import com.android.volley.toolbox.ImageLoader;
 import co.icoms.triptour.R;
 import co.icoms.triptour.utils.MySingleton;
 
-public class ScreenSlidePageFragment extends Fragment {
+public class PlaceSlideFragment extends Fragment {
 
     private static final String URL = "url";
     private static final String INDEX = "index";
@@ -22,10 +22,10 @@ public class ScreenSlidePageFragment extends Fragment {
     private int index;
     private String place;
 
-    public static ScreenSlidePageFragment newInstance(String url, int index, String place) {
+    public static PlaceSlideFragment newInstance(String url, int index, String place) {
 
         // Instantiate a new fragment
-        ScreenSlidePageFragment fragment = new ScreenSlidePageFragment();
+        PlaceSlideFragment fragment = new PlaceSlideFragment();
 
         // Save the parameters
         Bundle bundle = new Bundle();
@@ -58,7 +58,7 @@ public class ScreenSlidePageFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         ViewGroup rootView = (ViewGroup) inflater.inflate(
-                R.layout.fragment_screen_slide_page, container, false);
+                R.layout.fragment_place_slide, container, false);
 
         ImageLoader mImageLoader;
         ImageView mImageView;

@@ -15,22 +15,22 @@ import com.android.volley.toolbox.NetworkImageView;
 import java.util.List;
 
 import co.icoms.triptour.R;
-import co.icoms.triptour.ui.ActivitiesCell;
+import co.icoms.triptour.ui.MainActivitiesCell;
 import co.icoms.triptour.utils.MySingleton;
 
-public class ActivitiesAdapter extends RecyclerView.Adapter<ActivitiesAdapter.ActivitiesViewHolder>{
+public class MainActivitiesAdapter extends RecyclerView.Adapter<MainActivitiesAdapter.ActivitiesViewHolder>{
 
-    public List<ActivitiesCell> Activities;
+    public List<MainActivitiesCell> Activities;
     private Context context;
 
-    public ActivitiesAdapter(List<ActivitiesCell> Activities, Context context){
+    public MainActivitiesAdapter(List<MainActivitiesCell> Activities, Context context){
         this.Activities = Activities;
         this.context=context;
     }
 
     @Override
     public ActivitiesViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.activities_cell, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.cell_activities, parent, false);
         ActivitiesViewHolder ActivitiesViewHolder = new ActivitiesViewHolder(view);
         return ActivitiesViewHolder;
     }
