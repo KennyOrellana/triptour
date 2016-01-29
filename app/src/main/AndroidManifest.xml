@@ -46,6 +46,11 @@
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
 
         <activity android:name=".ui.PlaceActivity"></activity>
+
+        <activity
+            android:name=".ui.DetailHotelActivity"
+            android:theme="@style/AppTheme">
+        </activity>
     </application>
 
 </manifest>

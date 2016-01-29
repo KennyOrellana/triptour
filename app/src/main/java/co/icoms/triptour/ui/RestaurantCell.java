@@ -1,22 +1,16 @@
 package co.icoms.triptour.ui;
 
-public class HotelCell {
-    int id;
+public class RestaurantCell {
     String name;
     String photoUrl;
-    int price;
+    String price;
     int calification;
 
-    HotelCell(int id,String name, String photoUrl, int price, int calification){
-        this.id=id;
+    RestaurantCell(String name, String photoUrl, String price, int calification){
         this.name=name;
         this.photoUrl=photoUrl;
         this.price=price;
         this.calification=calification;
-    }
-
-    public int getId() {
-        return id;
     }
 
     public String getName() {
@@ -27,7 +21,7 @@ public class HotelCell {
         return photoUrl;
     }
 
-    public int getPrice() {
+    public String getPrice() {
         return price;
     }
 

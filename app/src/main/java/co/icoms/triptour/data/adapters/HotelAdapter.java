@@ -1,6 +1,7 @@
 package co.icoms.triptour.data.adapters;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -16,16 +17,29 @@ import java.util.List;
 
 import co.icoms.triptour.R;
 import co.icoms.triptour.ui.HotelCell;
+import co.icoms.triptour.utils.Final;
 import co.icoms.triptour.utils.MySingleton;
 
 public class HotelAdapter extends RecyclerView.Adapter<HotelAdapter.HotelViewHolder>{
 
     public List<HotelCell> hotels;
     private Context context;
+    Listener listener;
 
-    public HotelAdapter(List<HotelCell> hotels, Context context){
+    public void setPlace(String place) {
+        this.place = place;
+    }
+
+    private String place;
+
+    public HotelAdapter(List<HotelCell> hotels, Context context, Listener listener){
         this.hotels = hotels;
         this.context=context;
+        this.listener=listener;
+    }
+
+    public interface Listener{
+        void onClick(Bundle bundle);
     }
 
     @Override
@@ -36,7 +50,7 @@ public class HotelAdapter extends RecyclerView.Adapter<HotelAdapter.HotelViewHol
     }
 
     @Override
-    public void onBindViewHolder(final HotelViewHolder holder, int position) {
+    public void onBindViewHolder(final HotelViewHolder holder, final int position) {
         holder.name.setText(hotels.get(position).getName());
 
         ImageLoader mImageLoader;
@@ -66,6 +80,20 @@ public class HotelAdapter extends RecyclerView.Adapter<HotelAdapter.HotelViewHol
                 break;
         }
         //holder.star1.setImageResource(R.drawable.star_full);
+
+        holder.photo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Bundle bundle=new Bundle();
+                bundle.putString(Final.DataHotel.PLACE, place);
+                bundle.putInt(Final.DataHotel.ID, hotels.get(position).getId());
+                bundle.putString(Final.DataHotel.IMAGE, hotels.get(position).getPhotoUrl());
+                bundle.putInt(Final.DataHotel.PRICE, hotels.get(position).getPrice());
+                bundle.putInt(Final.DataHotel.STARS, hotels.get(position).getCalification());
+
+                listener.onClick(bundle);
+            }
+        });
 
     }
 

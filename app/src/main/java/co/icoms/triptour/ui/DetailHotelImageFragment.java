@@ -1,6 +1,5 @@
 package co.icoms.triptour.ui;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -19,12 +18,12 @@ import java.util.List;
 
 import co.icoms.triptour.R;
 import co.icoms.triptour.data.adapters.HotelAdapter;
-import co.icoms.triptour.utils.Final;
 
-public class HotelMainFragment extends Fragment implements HotelAdapter.Listener{
+public class DetailHotelImageFragment extends Fragment implements HotelAdapter.Listener{
     private RecyclerView recyclerViewHotel;
     List<HotelCell> listHotel= new ArrayList<>();
-    HotelAdapter adapterHotel = new HotelAdapter(listHotel, getContext(), this);
+    //TODO quitar el string
+    HotelAdapter adapterHotel = new HotelAdapter(listHotel, getContext(),this);
 
     private int previousTotal = 0;
     private boolean loading = true;
@@ -35,15 +34,12 @@ public class HotelMainFragment extends Fragment implements HotelAdapter.Listener
 
     @Override
     public void onClick(Bundle bundle) {
-        Intent intent = new Intent(getContext(), DetailHotelActivity.class);
-        intent.putExtra(Final.DataHotel.DATA,bundle);
-        startActivity(intent);
+
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        adapterHotel.setPlace(getArguments().getString("place"));
     }
 
     @Override
@@ -99,6 +95,7 @@ public class HotelMainFragment extends Fragment implements HotelAdapter.Listener
         });
     }
 
+    //TODO arreglar el parametro extras
     void addItemHotel(int n){
         final Integer number = new Integer(n);
 
