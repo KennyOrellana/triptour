@@ -14,7 +14,7 @@ public class Final {
         public static final String ID="hotel_id";
         public static final String NAME="hotel_name";
         public static final String IMAGE="hotel_image";
-        public static final String PRICE="hotel_image";
+        public static final String PRICE="hotel_price";
         public static final String STARS="hotel_stars";
     }
 

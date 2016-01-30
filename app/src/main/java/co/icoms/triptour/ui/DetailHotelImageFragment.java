@@ -21,7 +21,7 @@ import co.icoms.triptour.data.adapters.MainHotelAdapter;
 
 public class DetailHotelImageFragment extends Fragment implements MainHotelAdapter.Listener{
     private RecyclerView recyclerViewHotel;
-    List<MainHotelCell> listHotel= new ArrayList<>();
+    List<DetailHotelImageCell> listHotel= new ArrayList<>();
     //TODO quitar el string
     MainHotelAdapter adapterHotel = new MainHotelAdapter(listHotel, getContext(),this);
 

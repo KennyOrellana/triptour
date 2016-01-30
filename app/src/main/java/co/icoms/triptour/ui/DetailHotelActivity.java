@@ -6,6 +6,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
+import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -35,6 +36,7 @@ public class DetailHotelActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_detail_hotel);
         Resources res=getResources();
 
@@ -42,6 +44,10 @@ public class DetailHotelActivity extends AppCompatActivity {
 
         //Adding tabs
         tabLayoutDetailHotel.addTab(tabLayoutDetailHotel.newTab().setIcon(res.getDrawable(R.drawable.ic_info_black_24dp)));
+        tabLayoutDetailHotel.addTab(tabLayoutDetailHotel.newTab().setIcon(res.getDrawable(R.drawable.ic_photo_black_48dp)));
+        tabLayoutDetailHotel.addTab(tabLayoutDetailHotel.newTab().setIcon(res.getDrawable(R.drawable.ic_place_black_48dp)));
+        tabLayoutDetailHotel.addTab(tabLayoutDetailHotel.newTab().setIcon(res.getDrawable(R.drawable.ic_phone_black_24dp)));
+        tabLayoutDetailHotel.addTab(tabLayoutDetailHotel.newTab().setIcon(res.getDrawable(R.drawable.ic_comment_black_24dp)));
 
         viewPager = (ViewPager) findViewById(R.id.viewPagerDetailHotel);
         DetailHotelTabAdapter adapter = new DetailHotelTabAdapter(getSupportFragmentManager(), tabLayoutDetailHotel.getTabCount());
@@ -69,6 +75,8 @@ public class DetailHotelActivity extends AppCompatActivity {
 
         //HEADER
         Bundle bundle = getIntent().getBundleExtra(Final.DataHotel.DATA);
+
+        Log.e("URLX",bundle.getString(Final.DataHotel.IMAGE));
 
         cardView = (CardView)findViewById(R.id.card_view);
         name = (TextView)findViewById(R.id.name);

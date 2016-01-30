@@ -15,37 +15,36 @@ import com.android.volley.toolbox.NetworkImageView;
 import java.util.List;
 
 import co.icoms.triptour.R;
-import co.icoms.triptour.ui.MainActivitiesCell;
 import co.icoms.triptour.utils.MySingleton;
 
-public class MainActivitiesAdapter extends RecyclerView.Adapter<MainActivitiesAdapter.ActivitiesViewHolder>{
+public class DetailHotelImageAdapter extends RecyclerView.Adapter<DetailHotelImageAdapter.DetailHotelImageViewHolder>{
 
-    public List<MainActivitiesCell> Activities;
+    public List<DetailHotelImageAdapter> DetailHotelImage;
     private Context context;
 
-    public MainActivitiesAdapter(List<MainActivitiesCell> Activities, Context context){
-        this.Activities = Activities;
+    public DetailHotelImageAdapter(List<DetailHotelImageAdapter> DetailHotelImage, Context context){
+        this.DetailHotelImage = DetailHotelImage;
         this.context=context;
     }
 
     @Override
-    public ActivitiesViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.cell_main_activities, parent, false);
-        ActivitiesViewHolder ActivitiesViewHolder = new ActivitiesViewHolder(view);
-        return ActivitiesViewHolder;
+    public DetailHotelImageViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.cell_main_detail_hotel_image, parent, false);
+        DetailHotelImageViewHolder DetailHotelImageViewHolder = new DetailHotelImageViewHolder(view);
+        return DetailHotelImageViewHolder;
     }
 
     @Override
-    public void onBindViewHolder(final ActivitiesViewHolder holder, int position) {
-        holder.name.setText(Activities.get(position).getName());
+    public void onBindViewHolder(final DetailHotelImageViewHolder holder, int position) {
+        holder.name.setText(DetailHotelImage.get(position).getName());
 
         ImageLoader mImageLoader;
 
         // Get the ImageLoader through your singleton class.
         mImageLoader = MySingleton.getInstance(this.context).getImageLoader();
-        holder.photo.setImageUrl(Activities.get(position).getPhotoUrl(),mImageLoader);
+        holder.photo.setImageUrl(DetailHotelImage.get(position).getPhotoUrl(),mImageLoader);
 
-        switch (Activities.get(position).getCalification()){
+        switch (DetailHotelImage.get(position).getCalification()){
             case 5:
                 holder.star5.setImageResource(R.drawable.star_full);
             case 4:
@@ -63,10 +62,10 @@ public class MainActivitiesAdapter extends RecyclerView.Adapter<MainActivitiesAd
 
     @Override
     public int getItemCount() {
-        return this.Activities.size();
+        return this.DetailHotelImage.size();
     }
 
-    public static class ActivitiesViewHolder extends RecyclerView.ViewHolder {
+    public static class DetailHotelImageViewHolder extends RecyclerView.ViewHolder {
         CardView cardView;
         TextView name;
         NetworkImageView photo;
@@ -77,7 +76,7 @@ public class MainActivitiesAdapter extends RecyclerView.Adapter<MainActivitiesAd
         ImageView star4;
         ImageView star5;
 
-        ActivitiesViewHolder(View itemView) {
+        DetailHotelImageViewHolder(View itemView) {
             super(itemView);
             cardView = (CardView)itemView.findViewById(R.id.card_view);
             name = (TextView)itemView.findViewById(R.id.name);

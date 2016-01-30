@@ -5,6 +5,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
+import co.icoms.triptour.ui.DetailHotelImageFragment;
 import co.icoms.triptour.ui.MainFoursquareFragment;
 
 public class DetailHotelTabAdapter extends FragmentStatePagerAdapter {
@@ -26,27 +27,31 @@ public class DetailHotelTabAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        Bundle bundle = new Bundle();
+        //Bundle bundle = new Bundle();
 
         switch (position) {
             case 0:
                 MainFoursquareFragment foursquareTab = new MainFoursquareFragment();
                 foursquareTab.setArguments(bundle);
                 return foursquareTab;
-            /*
+
             case 1:
-                MainHotelFragment hotelTab = new MainHotelFragment();
-                hotelTab.setArguments(bundle);
-                return hotelTab;
+                DetailHotelImageFragment detailHotelImageFragment = new DetailHotelImageFragment();
+                detailHotelImageFragment.setArguments(bundle);
+                return detailHotelImageFragment;
             case 2:
-                MainRestaurantFragment restaurantTab = new MainRestaurantFragment();
-                restaurantTab.setArguments(bundle);
-                return restaurantTab;
+                MainFoursquareFragment foursquareTab2 = new MainFoursquareFragment();
+                foursquareTab2.setArguments(bundle);
+                return foursquareTab2;
             case 3:
-                MainActivitiesFragment activitiesTab = new MainActivitiesFragment();
-                activitiesTab.setArguments(bundle);
-                return activitiesTab;
-                */
+                MainFoursquareFragment foursquareTab3 = new MainFoursquareFragment();
+                foursquareTab3.setArguments(bundle);
+                return foursquareTab3;
+            case 4:
+                MainFoursquareFragment foursquareTab4 = new MainFoursquareFragment();
+                foursquareTab4.setArguments(bundle);
+                return foursquareTab4;
+
             default:
                 return null;
         }
