@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,6 +45,7 @@ public class MainHotelAdapter extends RecyclerView.Adapter<MainHotelAdapter.Hote
 
     @Override
     public HotelViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        Log.e("TAG Execute", "Adapter onCreateViewHolder");
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.cell_main_hotel, parent, false);
         HotelViewHolder hotelViewHolder = new HotelViewHolder(view);
         return hotelViewHolder;
@@ -52,7 +54,7 @@ public class MainHotelAdapter extends RecyclerView.Adapter<MainHotelAdapter.Hote
     @Override
     public void onBindViewHolder(final HotelViewHolder holder, final int position) {
         holder.name.setText(hotels.get(position).getName());
-
+        Log.e("TAG Execute", "Adapter onBindViewHolder ");
         ImageLoader mImageLoader;
         //ImageView mImageView;
 
@@ -65,17 +67,28 @@ public class MainHotelAdapter extends RecyclerView.Adapter<MainHotelAdapter.Hote
 
         holder.price.setText(String.valueOf(hotels.get(position).getPrice()));
 
+        holder.star5.setImageResource(R.drawable.star_full);
+        holder.star5.setVisibility(View.INVISIBLE);
+        holder.star4.setImageResource(R.drawable.star_full);
+        holder.star4.setVisibility(View.INVISIBLE);
+        holder.star3.setImageResource(R.drawable.star_full);
+        holder.star3.setVisibility(View.INVISIBLE);
+        holder.star2.setImageResource(R.drawable.star_full);
+        holder.star2.setVisibility(View.INVISIBLE);
+        holder.star1.setImageResource(R.drawable.star_full);
+        holder.star1.setVisibility(View.INVISIBLE);
+
         switch (hotels.get(position).getCalification()){
             case 5:
-                holder.star5.setImageResource(R.drawable.star_full);
+                holder.star5.setVisibility(View.VISIBLE);
             case 4:
-                holder.star4.setImageResource(R.drawable.star_full);
+                holder.star4.setVisibility(View.VISIBLE);
             case 3:
-                holder.star3.setImageResource(R.drawable.star_full);
+                holder.star3.setVisibility(View.VISIBLE);
             case 2:
-                holder.star2.setImageResource(R.drawable.star_full);
+                holder.star2.setVisibility(View.VISIBLE);
             case 1:
-                holder.star1.setImageResource(R.drawable.star_full);
+                holder.star1.setVisibility(View.VISIBLE);
             default:
                 break;
         }
@@ -130,6 +143,7 @@ public class MainHotelAdapter extends RecyclerView.Adapter<MainHotelAdapter.Hote
 
     @Override
     public void onAttachedToRecyclerView(RecyclerView recyclerView) {
+        Log.e("TAG Execute", "Adapter onAttachedToRecyclerView");
         super.onAttachedToRecyclerView(recyclerView);
     }
 }

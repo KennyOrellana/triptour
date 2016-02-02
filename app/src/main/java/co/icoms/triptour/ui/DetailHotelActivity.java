@@ -7,6 +7,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -92,21 +93,33 @@ public class DetailHotelActivity extends AppCompatActivity {
 
         ImageLoader mImageLoader;
         mImageLoader = MySingleton.getInstance(this).getImageLoader();
-        photo.setImageUrl(bundle.getString(Final.DataHotel.IMAGE),mImageLoader);
+        photo.setImageUrl(bundle.getString(Final.DataHotel.IMAGE), mImageLoader);
         price.setText(String.valueOf(bundle.getInt(Final.DataHotel.PRICE)));
 
+//        Log.e("STARS Detalle",bundle.getInt(Final.DataHotel.STARS))
+
+        star5.setImageResource(R.drawable.star_full);
+        star5.setVisibility(View.INVISIBLE);
+        star4.setImageResource(R.drawable.star_full);
+        star4.setVisibility(View.INVISIBLE);
+        star3.setImageResource(R.drawable.star_full);
+        star3.setVisibility(View.INVISIBLE);
+        star2.setImageResource(R.drawable.star_full);
+        star2.setVisibility(View.INVISIBLE);
+        star1.setImageResource(R.drawable.star_full);
+        star1.setVisibility(View.INVISIBLE);
 
         switch (bundle.getInt(Final.DataHotel.STARS)){
             case 5:
-                star5.setImageResource(R.drawable.star_full);
+                star5.setVisibility(View.VISIBLE);
             case 4:
-                star4.setImageResource(R.drawable.star_full);
+                star4.setVisibility(View.VISIBLE);
             case 3:
-                star3.setImageResource(R.drawable.star_full);
+                star3.setVisibility(View.VISIBLE);
             case 2:
-                star2.setImageResource(R.drawable.star_full);
+                star2.setVisibility(View.VISIBLE);
             case 1:
-                star1.setImageResource(R.drawable.star_full);
+                star1.setVisibility(View.VISIBLE);
             default:
                 break;
         }

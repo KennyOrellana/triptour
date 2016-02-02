@@ -6,8 +6,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
@@ -15,78 +13,48 @@ import com.android.volley.toolbox.NetworkImageView;
 import java.util.List;
 
 import co.icoms.triptour.R;
+import co.icoms.triptour.ui.DetailHotelImageCell;
 import co.icoms.triptour.utils.MySingleton;
 
 public class DetailHotelImageAdapter extends RecyclerView.Adapter<DetailHotelImageAdapter.DetailHotelImageViewHolder>{
 
-    public List<DetailHotelImageAdapter> DetailHotelImage;
+    public List<DetailHotelImageCell> detailHotelImage;
     private Context context;
 
-    public DetailHotelImageAdapter(List<DetailHotelImageAdapter> DetailHotelImage, Context context){
-        this.DetailHotelImage = DetailHotelImage;
+    public DetailHotelImageAdapter(List<DetailHotelImageCell> detailHotelImage, Context context){
+        this.detailHotelImage = detailHotelImage;
         this.context=context;
     }
 
     @Override
     public DetailHotelImageViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.cell_main_detail_hotel_image, parent, false);
-        DetailHotelImageViewHolder DetailHotelImageViewHolder = new DetailHotelImageViewHolder(view);
-        return DetailHotelImageViewHolder;
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.cell_detail_hotel_image, parent, false);
+        DetailHotelImageViewHolder detailHotelImageViewHolder = new DetailHotelImageViewHolder(view);
+        return detailHotelImageViewHolder;
     }
 
     @Override
     public void onBindViewHolder(final DetailHotelImageViewHolder holder, int position) {
-        holder.name.setText(DetailHotelImage.get(position).getName());
-
         ImageLoader mImageLoader;
 
         // Get the ImageLoader through your singleton class.
         mImageLoader = MySingleton.getInstance(this.context).getImageLoader();
-        holder.photo.setImageUrl(DetailHotelImage.get(position).getPhotoUrl(),mImageLoader);
-
-        switch (DetailHotelImage.get(position).getCalification()){
-            case 5:
-                holder.star5.setImageResource(R.drawable.star_full);
-            case 4:
-                holder.star4.setImageResource(R.drawable.star_full);
-            case 3:
-                holder.star3.setImageResource(R.drawable.star_full);
-            case 2:
-                holder.star2.setImageResource(R.drawable.star_full);
-            case 1:
-                holder.star1.setImageResource(R.drawable.star_full);
-            default:
-                break;
-        }
+        holder.photo.setImageUrl(detailHotelImage.get(position).getPhotoUrl(),mImageLoader);
     }
 
     @Override
     public int getItemCount() {
-        return this.DetailHotelImage.size();
+        return this.detailHotelImage.size();
     }
 
     public static class DetailHotelImageViewHolder extends RecyclerView.ViewHolder {
         CardView cardView;
-        TextView name;
         NetworkImageView photo;
-        TextView price;
-        ImageView star1;
-        ImageView star2;
-        ImageView star3;
-        ImageView star4;
-        ImageView star5;
 
         DetailHotelImageViewHolder(View itemView) {
             super(itemView);
             cardView = (CardView)itemView.findViewById(R.id.card_view);
-            name = (TextView)itemView.findViewById(R.id.name);
             photo = (NetworkImageView)itemView.findViewById(R.id.photo);
-            price = (TextView)itemView.findViewById(R.id.price);
-            star1 = (ImageView)itemView.findViewById(R.id.star_1);
-            star2 = (ImageView)itemView.findViewById(R.id.star_2);
-            star3 = (ImageView)itemView.findViewById(R.id.star_3);
-            star4 = (ImageView)itemView.findViewById(R.id.star_4);
-            star5 = (ImageView)itemView.findViewById(R.id.star_5);
         }
     }
 

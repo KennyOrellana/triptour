@@ -17,25 +17,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 import co.icoms.triptour.R;
-import co.icoms.triptour.data.adapters.MainHotelAdapter;
+import co.icoms.triptour.data.adapters.DetailHotelImageAdapter;
 
-public class DetailHotelImageFragment extends Fragment implements MainHotelAdapter.Listener{
+public class DetailHotelImageFragment extends Fragment {
     private RecyclerView recyclerViewHotel;
-    List<DetailHotelImageCell> listHotel= new ArrayList<>();
-    //TODO quitar el string
-    MainHotelAdapter adapterHotel = new MainHotelAdapter(listHotel, getContext(),this);
+    List<DetailHotelImageCell> listImages= new ArrayList<>();
+
+    DetailHotelImageAdapter adapterHotel = new DetailHotelImageAdapter(listImages, getContext());
 
     private int previousTotal = 0;
     private boolean loading = true;
     private int visibleThreshold = 5;
     int firstVisibleItem, visibleItemCount, totalItemCount;
-    String tableHotel;
-
-
-    @Override
-    public void onClick(Bundle bundle) {
-
-    }
+    String tableDetailHotelImages;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -44,26 +38,22 @@ public class DetailHotelImageFragment extends Fragment implements MainHotelAdapt
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        //tableHotel="ceiba";
-        tableHotel=getArguments().getString("place");
+        //tableDetailHotelImages="ceiba";
+        tableDetailHotelImages=getArguments().getString("place")+"_hotel_image";
 
-        if(tableHotel.equals("roatan"))
-            tableHotel="hotels";
-        else
-            tableHotel="hotels_"+tableHotel;
 
         for(int k=1;k<6;k++) {
-            addItemHotel(k);
+            addItem(k);
         }
 
-        return inflater.inflate(R.layout.fragment_main_hotel, container, false);
+        return inflater.inflate(R.layout.fragment_detail_hotel_image, container, false);
     }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        recyclerViewHotel = (RecyclerView) this.getView().findViewById(R.id.recycler_view_hotel);
+        recyclerViewHotel = (RecyclerView) this.getView().findViewById(R.id.recycler_view_images);
         final LinearLayoutManager llm = new LinearLayoutManager(getContext());
         recyclerViewHotel.setLayoutManager(llm);
         recyclerViewHotel.setAdapter(adapterHotel);
@@ -89,27 +79,24 @@ public class DetailHotelImageFragment extends Fragment implements MainHotelAdapt
                         <= (firstVisibleItem + visibleThreshold)) {
 
                     loading = true;
-                    addItemHotel(1+totalItemCount);
+                    addItem(1+totalItemCount);
                 }
             }
         });
     }
 
     //TODO arreglar el parametro extras
-    void addItemHotel(int n){
+    void addItem(int n){
         final Integer number = new Integer(n);
 
-        ParseQuery query = new ParseQuery(this.tableHotel);
+        ParseQuery query = new ParseQuery(this.tableDetailHotelImages);
         query.whereEqualTo("number", number);
         query.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> item, ParseException e) {
                 if (item != null && item.size() > 0) {
-                    listHotel.add(new MainHotelCell(number,
-                                                item.get(0).getString("name"),
-                                                item.get(0).getString("url"),
-                                                item.get(0).getInt("price"),
-                                                item.get(0).getInt("stars")));
+                    listImages.set(number, new DetailHotelImageCell(
+                                                item.get(0).getString("url")));
                     adapterHotel.notifyDataSetChanged();
                 }
             }
