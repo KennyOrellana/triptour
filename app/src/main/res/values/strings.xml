@@ -21,4 +21,8 @@
 
     <!--String PlaceActivity-->
     <string name="place_message">seleccione destino</string>
+
+
+    <!-- Menu -->
+    <string name="menu_sing_out">Sing Out</string>
 </resources>

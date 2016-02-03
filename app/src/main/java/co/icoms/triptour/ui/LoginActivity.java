@@ -35,13 +35,11 @@ import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
-import com.facebook.FacebookSdk;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.parse.FindCallback;
-import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
@@ -109,7 +107,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         super.onCreate(savedInstanceState);
         //Booting Facebook SDK
 
-        FacebookSdk.sdkInitialize(getApplicationContext());
+
         //If Facebook Logged skip login
         callbackManager = CallbackManager.Factory.create();
         setContentView(R.layout.activity_login);
@@ -142,16 +140,15 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         mProgressView = findViewById(R.id.login_progress);
 
         //Booting PARSE
-        Parse.enableLocalDatastore(this);
-        Parse.initialize(this);
+        //if(getIntent().getStringExtra(Final.DataLogin.STATE)!=null&&!getIntent().getStringExtra(Final.DataLogin.STATE).equals(Final.DataLogin.RELOGIN)) {
 
-
+        //}
 
         //Login Facebook
         loginButton = (LoginButton) findViewById(R.id.login_button_facebook);
         loginButton.setReadPermissions(Arrays.asList("public_profile, email"));
 
-
+        /*
         //Login email
         SharedPreferences prefs = getSharedPreferences("login", Context.MODE_PRIVATE);
         if(prefs.getBoolean("logged", false)) {
@@ -164,6 +161,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 startPlaceActivity();
             }
         }
+        */
         //------
         loginButton.registerCallback(callbackManager,
                 new FacebookCallback<LoginResult>() {
@@ -444,12 +442,16 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     }
 
     private void startPlaceActivity(){
-        Intent placeIntent = new Intent(getApplicationContext(), PlaceActivity.class);
+        //Intent placeIntent = new Intent(getApplicationContext(), PlaceActivity.class);
         //Intent placeIntent = new Intent(getApplicationContext(), MainActivity.class);
-        startActivity(placeIntent);
+        //startActivity(placeIntent);
         finish();
     }
 
+    @Override
+    public void onBackPressed() {
+        moveTaskToBack(true);
+    }
 
     @Override
     protected void onPause() {

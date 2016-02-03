@@ -1,9 +1,16 @@
 package co.icoms.triptour.ui;
 
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 
+import com.facebook.AccessToken;
+import com.facebook.FacebookSdk;
+import com.parse.Parse;
 import com.viewpagerindicator.CirclePageIndicator;
 
 import co.icoms.triptour.R;
@@ -18,6 +25,28 @@ public class PlaceActivity extends FragmentActivity {
     @Override
     protected void onCreate(Bundle arg0) {
         super.onCreate(arg0);
+
+        //Initialization
+        //Facebook
+        FacebookSdk.sdkInitialize(getApplicationContext());
+        //Parse
+        Parse.enableLocalDatastore(this);
+        Parse.initialize(getApplicationContext());
+        //-----------------------------
+
+        SharedPreferences preferences = getSharedPreferences("login", Context.MODE_PRIVATE);
+        if(preferences.getBoolean("logged", false)) {
+            Log.e("Boot", "Login con Email");
+        }
+        else if (isLoggedFacebook()) {
+            Log.e("Boot", "Login con Facebook");
+        }
+        else {
+            Log.e("Boot", "onCreate");
+            startLoginActivity();
+        }
+
+        //
 
         this.setContentView(R.layout.activity_place);
 
@@ -71,5 +100,15 @@ public class PlaceActivity extends FragmentActivity {
     public void onBackPressed() {
 
        moveTaskToBack(true);
+    }
+
+    private boolean isLoggedFacebook() {
+        AccessToken accessToken = AccessToken.getCurrentAccessToken();
+        return accessToken != null;
+    }
+
+    private void startLoginActivity(){
+        Intent loginIntent = new Intent(getApplicationContext(), LoginActivity.class);
+        startActivity(loginIntent);
     }
 }

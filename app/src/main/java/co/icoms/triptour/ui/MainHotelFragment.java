@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -28,6 +29,7 @@ public class MainHotelFragment extends Fragment implements MainHotelAdapter.List
     List<MainHotelCell> listHotel= new ArrayList<>();
     MainHotelAdapter adapterHotel = new MainHotelAdapter(listHotel, getContext(), this);
     SwipeRefreshLayout swipeRefreshMainHotel;
+    TextView textViewEmptyList;
 
 
     private int previousTotal = 0;
@@ -38,9 +40,9 @@ public class MainHotelFragment extends Fragment implements MainHotelAdapter.List
 
     @Override
     public void onClick(Bundle bundle) {
-        Intent intent = new Intent(getContext(), DetailHotelActivity.class);
-        intent.putExtra(Final.DataHotel.DATA, bundle);
-        startActivity(intent);
+            Intent intent = new Intent(getContext(), DetailHotelActivity.class);
+            intent.putExtra(Final.DataHotel.DATA, bundle);
+            startActivity(intent);
     }
 
     @Override
@@ -63,8 +65,6 @@ public class MainHotelFragment extends Fragment implements MainHotelAdapter.List
         else
             tableHotel="hotels_"+tableHotel;
 
-            addItemHotel(1);
-
         return inflater.inflate(R.layout.fragment_main_hotel, container, false);
     }
 
@@ -72,6 +72,10 @@ public class MainHotelFragment extends Fragment implements MainHotelAdapter.List
     public void onActivityCreated(Bundle savedInstanceState) {
         Log.e("TAG Execute", "Fragment onActivityCreated");
         super.onActivityCreated(savedInstanceState);
+
+        textViewEmptyList=(TextView)this.getView().findViewById(R.id.text_view_empty_list);
+        addItemHotel(1);
+
 
         recyclerViewHotel = (RecyclerView) this.getView().findViewById(R.id.recycler_view_hotel);
         final LinearLayoutManager llm = new LinearLayoutManager(getContext());
@@ -152,5 +156,11 @@ public class MainHotelFragment extends Fragment implements MainHotelAdapter.List
                 }
             }
         });
+
+        if(listHotel.size()==0)
+            textViewEmptyList.setVisibility(View.VISIBLE);
+        else
+            textViewEmptyList.setVisibility(View.INVISIBLE);
+
     }
 }

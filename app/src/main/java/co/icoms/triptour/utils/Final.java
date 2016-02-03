@@ -18,4 +18,13 @@ public class Final {
         public static final String STARS="hotel_stars";
     }
 
+    static public class DataLogin{
+        public static final String STATE="login_state";
+        public static final String RELOGIN="login_relogin";
+    }
+
+    static public class LifeCycle{
+        public static final String STATE="life_cycle_state";
+    }
+
 }

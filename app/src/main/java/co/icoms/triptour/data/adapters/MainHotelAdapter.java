@@ -97,15 +97,17 @@ public class MainHotelAdapter extends RecyclerView.Adapter<MainHotelAdapter.Hote
         holder.photo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Bundle bundle=new Bundle();
-                bundle.putString(Final.DataHotel.PLACE, place);
-                bundle.putString(Final.DataHotel.NAME, hotels.get(position).getName());
-                bundle.putInt(Final.DataHotel.ID, hotels.get(position).getId());
-                bundle.putString(Final.DataHotel.IMAGE, hotels.get(position).getPhotoUrl());
-                bundle.putInt(Final.DataHotel.PRICE, hotels.get(position).getPrice());
-                bundle.putInt(Final.DataHotel.STARS, hotels.get(position).getCalification());
+                if (hotels.size() > 0) {
+                    Bundle bundle = new Bundle();
+                    bundle.putString(Final.DataHotel.PLACE, place);
+                    bundle.putString(Final.DataHotel.NAME, hotels.get(position).getName());
+                    bundle.putInt(Final.DataHotel.ID, hotels.get(position).getId());
+                    bundle.putString(Final.DataHotel.IMAGE, hotels.get(position).getPhotoUrl());
+                    bundle.putInt(Final.DataHotel.PRICE, hotels.get(position).getPrice());
+                    bundle.putInt(Final.DataHotel.STARS, hotels.get(position).getCalification());
 
-                listener.onClick(bundle);
+                    listener.onClick(bundle);
+                }
             }
         });
 
