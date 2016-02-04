@@ -54,6 +54,9 @@
             android:name=".ui.DetailHotelActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         </activity>
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="15a011ca21a59c577779f7252c991782f2277055" />
     </application>
 
 

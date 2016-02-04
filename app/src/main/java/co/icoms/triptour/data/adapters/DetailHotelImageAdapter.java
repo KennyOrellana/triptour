@@ -58,8 +58,4 @@ public class DetailHotelImageAdapter extends RecyclerView.Adapter<DetailHotelIma
         }
     }
 
-    @Override
-    public void onAttachedToRecyclerView(RecyclerView recyclerView) {
-        super.onAttachedToRecyclerView(recyclerView);
-    }
 }

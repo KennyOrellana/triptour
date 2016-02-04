@@ -34,7 +34,6 @@ public class DetailHotelTabAdapter extends FragmentStatePagerAdapter {
                 MainFoursquareFragment foursquareTab = new MainFoursquareFragment();
                 foursquareTab.setArguments(bundle);
                 return foursquareTab;
-
             case 1:
                 DetailHotelImageFragment detailHotelImageFragment = new DetailHotelImageFragment();
                 detailHotelImageFragment.setArguments(bundle);

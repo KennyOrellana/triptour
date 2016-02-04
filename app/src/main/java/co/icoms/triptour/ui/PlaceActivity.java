@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 
+import com.crashlytics.android.Crashlytics;
 import com.facebook.AccessToken;
 import com.facebook.FacebookSdk;
 import com.parse.Parse;
@@ -15,6 +16,7 @@ import com.viewpagerindicator.CirclePageIndicator;
 
 import co.icoms.triptour.R;
 import co.icoms.triptour.data.adapters.PlaceSlideAdapter;
+import io.fabric.sdk.android.Fabric;
 
 public class PlaceActivity extends FragmentActivity {
     ViewPager pagerRoatan = null;
@@ -25,6 +27,7 @@ public class PlaceActivity extends FragmentActivity {
     @Override
     protected void onCreate(Bundle arg0) {
         super.onCreate(arg0);
+        Fabric.with(this, new Crashlytics());
 
         //Initialization
         //Facebook

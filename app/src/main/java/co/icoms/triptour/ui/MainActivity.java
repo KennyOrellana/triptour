@@ -43,31 +43,19 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
-        /*
-        SharedPreferences prefs = getSharedPreferences("login", Context.MODE_PRIVATE);
-        if(prefs.getBoolean(Final.LifeCycle.STATE,false)){
-            Parse.enableLocalDatastore(this);
-            Parse.initialize(getApplicationContext());
-        }
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.putBoolean(Final.LifeCycle.STATE, false);
-        editor.commit();
-        */
-        Log.e("TAG Execute", "Activity onCreate");
+
         setContentView(R.layout.activity_main);
         Resources res=getResources();
 
         tabLayoutMenu=(TabLayout)findViewById(R.id.tab_layout_menu);
 
         tabLayoutMenu.addTab(tabLayoutMenu.newTab().setIcon(res.getDrawable(R.mipmap.foursquare)));
-        //tabLayoutMenu.addTab(tabLayoutMenu.newTab().setIcon(res.getDrawable(R.drawable.ic_place_black_48dp)));
         tabLayoutMenu.addTab(tabLayoutMenu.newTab().setIcon(res.getDrawable(R.drawable.ic_hotel_black_48dp)));
         tabLayoutMenu.addTab(tabLayoutMenu.newTab().setIcon(res.getDrawable(R.drawable.ic_restaurant_menu_black_48dp)));
         tabLayoutMenu.addTab(tabLayoutMenu.newTab().setIcon(res.getDrawable(R.drawable.ic_local_activity_black_48dp)));
 
-        viewPager = (ViewPager) findViewById(R.id.viewPagerMain);
+        viewPager = (ViewPager) findViewById(R.id.view_pager_main);
         MainTabAdapter adapter = new MainTabAdapter(getSupportFragmentManager(), tabLayoutMenu.getTabCount());
 
         adapter.setPlace(getIntent().getStringExtra("place"));
@@ -119,7 +107,7 @@ public class MainActivity extends AppCompatActivity {
         editor.putBoolean(Final.LifeCycle.STATE,true);
         editor.commit();
         */
-        finish();
+        //finish();
         Log.e("TAGP", "onStop()");
     }
 }

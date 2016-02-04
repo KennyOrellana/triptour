@@ -4,7 +4,6 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,7 +44,6 @@ public class MainHotelAdapter extends RecyclerView.Adapter<MainHotelAdapter.Hote
 
     @Override
     public HotelViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        Log.e("TAG Execute", "Adapter onCreateViewHolder");
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.cell_main_hotel, parent, false);
         HotelViewHolder hotelViewHolder = new HotelViewHolder(view);
         return hotelViewHolder;
@@ -54,14 +52,10 @@ public class MainHotelAdapter extends RecyclerView.Adapter<MainHotelAdapter.Hote
     @Override
     public void onBindViewHolder(final HotelViewHolder holder, final int position) {
         holder.name.setText(hotels.get(position).getName());
-        Log.e("TAG Execute", "Adapter onBindViewHolder ");
         ImageLoader mImageLoader;
-        //ImageView mImageView;
-
 
         // Get the ImageLoader through your singleton class.
         mImageLoader = MySingleton.getInstance(this.context).getImageLoader();
-        //mImageLoader.get(hotels.get(position).getPhotoUrl(), ImageLoader.getImageListener(holder.photo, R.mipmap.def_image, R.mipmap.err_image));
 
         holder.photo.setImageUrl(hotels.get(position).getPhotoUrl(),mImageLoader);
 
@@ -141,11 +135,5 @@ public class MainHotelAdapter extends RecyclerView.Adapter<MainHotelAdapter.Hote
             star4 = (ImageView)itemView.findViewById(R.id.star_4);
             star5 = (ImageView)itemView.findViewById(R.id.star_5);
         }
-    }
-
-    @Override
-    public void onAttachedToRecyclerView(RecyclerView recyclerView) {
-        Log.e("TAG Execute", "Adapter onAttachedToRecyclerView");
-        super.onAttachedToRecyclerView(recyclerView);
     }
 }

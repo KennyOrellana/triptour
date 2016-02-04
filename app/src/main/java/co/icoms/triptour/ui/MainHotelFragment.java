@@ -1,6 +1,9 @@
 package co.icoms.triptour.ui;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -30,6 +33,7 @@ public class MainHotelFragment extends Fragment implements MainHotelAdapter.List
     MainHotelAdapter adapterHotel = new MainHotelAdapter(listHotel, getContext(), this);
     SwipeRefreshLayout swipeRefreshMainHotel;
     TextView textViewEmptyList;
+    boolean modifyRecycleView=true;
 
 
     private int previousTotal = 0;
@@ -74,7 +78,22 @@ public class MainHotelFragment extends Fragment implements MainHotelAdapter.List
         super.onActivityCreated(savedInstanceState);
 
         textViewEmptyList=(TextView)this.getView().findViewById(R.id.text_view_empty_list);
+
+        //Pull to Refresh
+        swipeRefreshMainHotel = (SwipeRefreshLayout)this.getView().findViewById(R.id.swipe_refresh_main_hotel);
+        swipeRefreshMainHotel.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                //if(modifyRecycleView){
+
+                    listHotel.clear();
+                    Log.e("AddItem", "Refresh");
+                    addItemHotel(1);
+                //}
+            }
+        });
         addItemHotel(1);
+
 
 
         recyclerViewHotel = (RecyclerView) this.getView().findViewById(R.id.recycler_view_hotel);
@@ -102,65 +121,64 @@ public class MainHotelFragment extends Fragment implements MainHotelAdapter.List
                 }
                 if (!loading && (totalItemCount - visibleItemCount)
                         <= (firstVisibleItem + visibleThreshold)) {
-                        loading = true;
-                        addItemHotel(1 + totalItemCount);
+                    loading = true;
+                    Log.e("AddItem", "Scroll Try");
+                    //if(modifyRecycleView){
+                        Log.e("AddItem", "Scroll");
+                        addItemHotel(1+totalItemCount);
+                    //}
                 }
             }
         });
 
 
-
-        //Pull to Refresh
-        swipeRefreshMainHotel = (SwipeRefreshLayout)this.getView().findViewById(R.id.swipe_refresh_main_hotel);
-        swipeRefreshMainHotel.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                listHotel.clear();
-                addItemHotel(1);
-                swipeRefreshMainHotel.setRefreshing(false);
-            }
-        });
     }
 
     void addItemHotel(int n){
-        Log.e("TAG number ", String.valueOf(n));
         final Integer number = new Integer(n);
-        Log.e("TAG table", this.tableHotel);
 
-        ParseQuery query = new ParseQuery(this.tableHotel);
-        query.whereGreaterThanOrEqualTo("number", number);
-        query.setLimit(5);
-        query.findInBackground(new FindCallback<ParseObject>() {
-            @Override
-            public void done(List<ParseObject> item, ParseException e) {
-                int size;
-                if (item != null && ((size=item.size()) > 0)) {
-                    //Log.e("TAG number ", String.valueOf(number));
-                    //Log.e("TAG Size ", String.valueOf(listHotel.size()));
-                    for(int k=0;k<size;k++) {
-                        listHotel.add(new MainHotelCell(
-                                item.get(k).getInt("number"),
-                                item.get(k).getString("name"),
-                                item.get(k).getString("url"),
-                                item.get(k).getInt("price"),
-                                item.get(k).getInt("stars")));
-                        Log.e("TAG Item"+String.valueOf(k), String.valueOf(item.get(k).getInt("number"))+" - "+
-                                item.get(k).getString("name")+" - "+
-                                item.get(k).getString("url")+" - "+
-                                String.valueOf(item.get(k).getInt("price")) +" - "+
-                                String.valueOf(item.get(k).getInt("stars")));
+        ConnectivityManager cm =
+                (ConnectivityManager)getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+
+       // if(activeNetwork!=null && activeNetwork.isConnected()&&modifyRecycleView) {
+        if(activeNetwork!=null && activeNetwork.isConnected()) {
+            modifyRecycleView=false;
+            ParseQuery query = new ParseQuery(this.tableHotel);
+            query.whereGreaterThanOrEqualTo("number", number);
+            query.setLimit(5);
+            query.findInBackground(new FindCallback<ParseObject>() {
+                @Override
+                public void done(List<ParseObject> item, ParseException e) {
+                    int size;
+                    if (item != null && ((size = item.size()) > 0)) {
+                        //Log.e("TAG number ", String.valueOf(number));
+                        //Log.e("TAG Size ", String.valueOf(listHotel.size()));
+                        for (int k = 0; k < size; k++) {
+                            listHotel.add(new MainHotelCell(
+                                    item.get(k).getInt("number"),
+                                    item.get(k).getString("name"),
+                                    item.get(k).getString("url"),
+                                    item.get(k).getInt("price"),
+                                    item.get(k).getInt("stars")));
+                            adapterHotel.notifyDataSetChanged();
+                        }
+                        Log.e("AddItem", "Finish Query");
+                        swipeRefreshMainHotel.setRefreshing(false);
+                        //Log.e("TAG size 2 ", String.valueOf(number));
+                        //Log.e("TAG number ", String.valueOf(listHotel.get(number-1).getId()));
                     }
-                    adapterHotel.notifyDataSetChanged();
-                    //Log.e("TAG size 2 ", String.valueOf(number));
-                    //Log.e("TAG number ", String.valueOf(listHotel.get(number-1).getId()));
+
+                    //modifyRecycleView=true;
+
+
+                    if (listHotel.size() == 0)
+                        textViewEmptyList.setVisibility(View.VISIBLE);
+                    else
+                        textViewEmptyList.setVisibility(View.INVISIBLE);
+                    Log.e("AddItem", "Finish");
                 }
-            }
-        });
-
-        if(listHotel.size()==0)
-            textViewEmptyList.setVisibility(View.VISIBLE);
-        else
-            textViewEmptyList.setVisibility(View.INVISIBLE);
-
+            });
+        }
     }
 }

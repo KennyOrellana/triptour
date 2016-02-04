@@ -50,7 +50,7 @@ public class DetailHotelActivity extends AppCompatActivity {
         tabLayoutDetailHotel.addTab(tabLayoutDetailHotel.newTab().setIcon(res.getDrawable(R.drawable.ic_phone_black_24dp)));
         tabLayoutDetailHotel.addTab(tabLayoutDetailHotel.newTab().setIcon(res.getDrawable(R.drawable.ic_comment_black_24dp)));
 
-        viewPager = (ViewPager) findViewById(R.id.viewPagerDetailHotel);
+        viewPager = (ViewPager) findViewById(R.id.view_pager_detail_hotel);
         DetailHotelTabAdapter adapter = new DetailHotelTabAdapter(getSupportFragmentManager(), tabLayoutDetailHotel.getTabCount());
 
         //Pass Bundle to all tabs for query parameters
@@ -123,5 +123,10 @@ public class DetailHotelActivity extends AppCompatActivity {
             default:
                 break;
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        finish();
     }
 }
