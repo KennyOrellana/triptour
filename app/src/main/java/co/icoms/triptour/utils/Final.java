@@ -27,4 +27,7 @@ public class Final {
         public static final String STATE="life_cycle_state";
     }
 
+    static public class Permissions{
+        public static final int FINE_LOCATION=1;
+    }
 }

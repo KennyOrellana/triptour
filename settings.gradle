@@ -1,2 +1,2 @@
-include ':app', ':volley', ':foursquare-oauth-library'
+include ':app', ':volley'
 include ':viewpagerindicator'

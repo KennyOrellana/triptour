@@ -25,4 +25,9 @@
 
     <!-- Menu -->
     <string name="menu_sing_out">Sing Out</string>
+
+
+    <!-- Foursquare -->
+    <string name="client_id">ZSCZGWCIK1JDG1DGKQ5ZZUZ5X2XOHAY2J5OTF5MRHMF1TAEP</string>
+    <string name="client_secret">NV1FQIS2NERKRPRONAMXMVCBGXHXRAJGFUYMMQ5MEEASK0ER</string>
 </resources>
