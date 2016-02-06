@@ -27,7 +27,7 @@ import co.icoms.triptour.data.adapters.DetailHotelImageAdapter;
 import co.icoms.triptour.utils.Final;
 
 public class DetailHotelImageFragment extends Fragment {
-    private RecyclerView recyclerViewHotel;
+    private RecyclerView recyclerViewDetailHotelImage;
     List<DetailHotelImageCell> listImages= new ArrayList<>();
 
     DetailHotelImageAdapter adapterDetailHotelImage = new DetailHotelImageAdapter(listImages, getContext());
@@ -55,22 +55,22 @@ public class DetailHotelImageFragment extends Fragment {
         textViewEmptyList=(TextView)this.getView().findViewById(R.id.text_view_empty_list);
         addItem(getArguments().getInt(Final.DataHotel.ID));
 
-        recyclerViewHotel = (RecyclerView) this.getView().findViewById(R.id.recycler_view_image);
-        final LinearLayoutManager llm = new LinearLayoutManager(getContext());
-        recyclerViewHotel.setLayoutManager(llm);
-        recyclerViewHotel.setAdapter(adapterDetailHotelImage);
+        recyclerViewDetailHotelImage = (RecyclerView) this.getView().findViewById(R.id.recycler_view_image);
+        final LinearLayoutManager llmImage = new LinearLayoutManager(getContext());
+        recyclerViewDetailHotelImage.setLayoutManager(llmImage);
+        recyclerViewDetailHotelImage.setAdapter(adapterDetailHotelImage);
 
-        recyclerViewHotel.setHasFixedSize(true);
+        recyclerViewDetailHotelImage.setHasFixedSize(true);
 
         /*
-        recyclerViewHotel.addOnScrollListener(new RecyclerView.OnScrollListener() {
+        recyclerViewDetailHotelImage.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
 
                 visibleItemCount = recyclerView.getChildCount();
-                totalItemCount = llm.getItemCount();
-                firstVisibleItem = llm.findFirstVisibleItemPosition();
+                totalItemCount = llmImage.getItemCount();
+                firstVisibleItem = llmImage.findFirstVisibleItemPosition();
 
                 if (loading) {
                     if (totalItemCount > previousTotal) {

@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
 import co.icoms.triptour.ui.DetailHotelImageFragment;
+import co.icoms.triptour.ui.DetailHotelReviewFragment;
 import co.icoms.triptour.ui.MainFoursquareFragment;
 
 public class DetailHotelTabAdapter extends FragmentStatePagerAdapter {
@@ -47,9 +48,9 @@ public class DetailHotelTabAdapter extends FragmentStatePagerAdapter {
                 foursquareTab3.setArguments(bundle);
                 return foursquareTab3;
             case 4:
-                MainFoursquareFragment foursquareTab4 = new MainFoursquareFragment();
-                foursquareTab4.setArguments(bundle);
-                return foursquareTab4;
+                DetailHotelReviewFragment detailHotelReviewFragment = new DetailHotelReviewFragment();
+                detailHotelReviewFragment.setArguments(bundle);
+                return detailHotelReviewFragment;
 
             default:
                 return null;

@@ -30,4 +30,8 @@
     <!-- Foursquare -->
     <string name="client_id">ZSCZGWCIK1JDG1DGKQ5ZZUZ5X2XOHAY2J5OTF5MRHMF1TAEP</string>
     <string name="client_secret">NV1FQIS2NERKRPRONAMXMVCBGXHXRAJGFUYMMQ5MEEASK0ER</string>
+
+    <!-- DetailHotel-->
+    <string name="hint_input_reviw">Ingrese su evaluación y seleccione la cantidad de estrellas.</string>
+    <string name="button_send">Enviar</string>
 </resources>
