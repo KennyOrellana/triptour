@@ -1,5 +1,7 @@
 package co.icoms.triptour.ui;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -51,10 +53,10 @@ public class DetailHotelActivity extends AppCompatActivity {
         tabLayoutDetailHotel.addTab(tabLayoutDetailHotel.newTab().setIcon(res.getDrawable(R.drawable.ic_comment_black_24dp)));
 
         viewPager = (ViewPager) findViewById(R.id.view_pager_detail_hotel);
-        DetailHotelTabAdapter adapter = new DetailHotelTabAdapter(getSupportFragmentManager(), tabLayoutDetailHotel.getTabCount());
+        DetailHotelTabAdapter adapter = new DetailHotelTabAdapter(getSupportFragmentManager(), tabLayoutDetailHotel.getTabCount(), getIntent().getBundleExtra(Final.DataHotel.DATA));
 
         //Pass Bundle to all tabs for query parameters
-        adapter.setBundle(getIntent().getBundleExtra(Final.DataHotel.DATA));
+        //adapter.setBundle(getIntent().getBundleExtra(Final.DataHotel.DATA));
         viewPager.setAdapter(adapter);
 
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayoutDetailHotel));
@@ -128,5 +130,15 @@ public class DetailHotelActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         finish();
+    }
+
+    private void saveBundle(Bundle bundle){
+        SharedPreferences prefs = getSharedPreferences(Final.DataHotel.DATA, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+
+        editor.putString(Final.DataHotel.PLACE, bundle.getString(Final.DataHotel.PLACE));
+        editor.putInt(Final.DataHotel.ID, bundle.getInt(Final.DataHotel.ID));
+
+        editor.commit();
     }
 }

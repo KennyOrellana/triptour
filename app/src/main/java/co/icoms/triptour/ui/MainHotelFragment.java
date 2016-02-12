@@ -2,6 +2,7 @@ package co.icoms.triptour.ui;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -46,6 +47,7 @@ public class MainHotelFragment extends Fragment implements MainHotelAdapter.List
     public void onClick(Bundle bundle) {
             Intent intent = new Intent(getContext(), DetailHotelActivity.class);
             intent.putExtra(Final.DataHotel.DATA, bundle);
+            saveLogin(bundle.getString(Final.DataHotel.PLACE), bundle.getInt(Final.DataHotel.ID));
             startActivity(intent);
     }
 
@@ -163,7 +165,6 @@ public class MainHotelFragment extends Fragment implements MainHotelAdapter.List
                                     item.get(k).getInt("stars")));
                             adapterHotel.notifyDataSetChanged();
                         }
-                        Log.e("AddItem", "Finish Query");
                         swipeRefreshMainHotel.setRefreshing(false);
                         //Log.e("TAG size 2 ", String.valueOf(number));
                         //Log.e("TAG number ", String.valueOf(listHotel.get(number-1).getId()));
@@ -180,5 +181,15 @@ public class MainHotelFragment extends Fragment implements MainHotelAdapter.List
                 }
             });
         }
+    }
+
+    private void saveLogin(String place, int id){
+        SharedPreferences prefs = getContext().getSharedPreferences(Final.DataHotel.DATA, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+
+        editor.putString(Final.DataHotel.PLACE, place);
+        editor.putInt(Final.DataHotel.ID, id);
+
+        editor.commit();
     }
 }

@@ -32,6 +32,6 @@
     <string name="client_secret">NV1FQIS2NERKRPRONAMXMVCBGXHXRAJGFUYMMQ5MEEASK0ER</string>
 
     <!-- DetailHotel-->
-    <string name="hint_input_reviw">Ingrese su evaluación y seleccione la cantidad de estrellas.</string>
+    <string name="hint_input_reviw">Evaluación y calificación</string>
     <string name="button_send">Enviar</string>
 </resources>

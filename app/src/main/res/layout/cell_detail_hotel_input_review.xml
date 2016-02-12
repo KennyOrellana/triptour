@@ -62,15 +62,13 @@
                     android:id="@+id/edit_text_review"
                     android:layout_width="match_parent"
                     android:layout_height="120dp"
-                    android:verticalScrollbarPosition="left"
                     android:layout_alignParentBottom="true"
                     android:padding="10dp"
                     android:hint="@string/hint_input_reviw"
-                    android:inputType="textMultiLine"
-                    android:gravity="top"
-                    android:imeOptions="actionSend"
+                    android:inputType="text"
                     android:imeActionLabel="@string/button_send"
-                    android:background="@color/gray45"></EditText>
+                    android:imeOptions="actionSend"
+                    android:singleLine="true"></EditText>
 
 
 

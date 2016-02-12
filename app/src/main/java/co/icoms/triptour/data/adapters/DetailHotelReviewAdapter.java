@@ -1,15 +1,20 @@
 package co.icoms.triptour.data.adapters;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.parse.ParseObject;
 
 import java.util.List;
 
@@ -21,10 +26,12 @@ public class DetailHotelReviewAdapter extends RecyclerView.Adapter<RecyclerView.
 
     public List<DetailHotelReviewCell> detailHotelReview;
     private Context context;
+    private static int stars;
 
     public DetailHotelReviewAdapter(List<DetailHotelReviewCell> detailHotelReview, Context context){
         this.detailHotelReview = detailHotelReview;
         this.context=context;
+
     }
 
     @Override
@@ -68,7 +75,7 @@ public class DetailHotelReviewAdapter extends RecyclerView.Adapter<RecyclerView.
         if(position==0) {
             DetailHotelInputReviewViewHolder holder = (DetailHotelInputReviewViewHolder)viewHolder;
 
-            holder.star5.setImageResource(R.drawable.star_full);
+            holder.star5.setImageResource(R.drawable.star_empty);
             holder.star5.setVisibility(View.INVISIBLE);
             holder.star4.setImageResource(R.drawable.star_full);
             holder.star4.setVisibility(View.INVISIBLE);
@@ -79,35 +86,14 @@ public class DetailHotelReviewAdapter extends RecyclerView.Adapter<RecyclerView.
             holder.star1.setImageResource(R.drawable.star_full);
             holder.star1.setVisibility(View.INVISIBLE);
 
-            int x=5;
-            switch (x) {
-                case 5:
-                    holder.star5.setVisibility(View.VISIBLE);
-                case 4:
-                    holder.star4.setVisibility(View.VISIBLE);
-                case 3:
-                    holder.star3.setVisibility(View.VISIBLE);
-                case 2:
-                    holder.star2.setVisibility(View.VISIBLE);
-                case 1:
-                    holder.star1.setVisibility(View.VISIBLE);
-                default:
-                    break;
-            }
-            //DetailHotelInputReviewViewHolder holder = new DetailHotelInputReviewViewHolder(viewHolder.itemView);
-
-            /*
-            holder.buttonSend.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    //TODO guarda review en parse
-                }
-            });
-            */
+            holder.star5.setVisibility(View.VISIBLE);
+            holder.star4.setVisibility(View.VISIBLE);
+            holder.star3.setVisibility(View.VISIBLE);
+            holder.star2.setVisibility(View.VISIBLE);
+            holder.star1.setVisibility(View.VISIBLE);
         }
         else{
             DetailHotelReviewViewHolder holder = (DetailHotelReviewViewHolder) viewHolder;
-            //DetailHotelReviewViewHolder holder = new DetailHotelReviewViewHolder(viewHolder.itemView);
 
             holder.textViewDate.setText(detailHotelReview.get(position).getDate());
             holder.textViewReview.setText(String.valueOf(detailHotelReview.get(position).getReview()));
@@ -165,7 +151,7 @@ public class DetailHotelReviewAdapter extends RecyclerView.Adapter<RecyclerView.
         ImageView star5;
         int stars;
 
-        DetailHotelInputReviewViewHolder(View itemView) {
+        DetailHotelInputReviewViewHolder(final View itemView) {
             super(itemView);
             cardView = (CardView)itemView.findViewById(R.id.card_view);
             editTextReview = (EditText)itemView.findViewById(R.id.edit_text_review);
@@ -185,6 +171,7 @@ public class DetailHotelReviewAdapter extends RecyclerView.Adapter<RecyclerView.
                     star2.setImageResource(R.drawable.star_empty);
                     star1.setImageResource(R.drawable.star_full);
                     stars=1;
+
                 }
             });
 
@@ -232,10 +219,50 @@ public class DetailHotelReviewAdapter extends RecyclerView.Adapter<RecyclerView.
                     star3.setImageResource(R.drawable.star_full);
                     star2.setImageResource(R.drawable.star_full);
                     star1.setImageResource(R.drawable.star_full);
-                    stars=5;
+                    stars = 5;
+                }
+            });
+
+            final EditText editTextReview = (EditText)itemView.findViewById(R.id.edit_text_review);
+            editTextReview.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+                @Override
+                public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                    boolean handled = false;
+                    if (actionId == EditorInfo.IME_ACTION_SEND) {
+
+                        ParseObject newReview = new ParseObject("reviews_" + getPlace(itemView.getContext()));
+                        newReview.put(Final.TableDetailHotelReview.REVIEW, editTextReview.getText().toString());
+                        newReview.put(Final.TableDetailHotelReview.NUMBER, getHotelId(itemView.getContext()));
+                        newReview.put(Final.TableDetailHotelReview.STARS, stars);
+                        newReview.put(Final.TableDetailHotelReview.EMAIL, getEmail(itemView.getContext()));
+                        newReview.saveInBackground();
+
+                        editTextReview.setText("");
+                        editTextReview.clearFocus();
+                        handled = true;
+                    }
+                    return handled;
                 }
             });
         }
     }
 
+    public int getStars(){
+        return 0;
+    }
+
+    public static String getEmail(Context context){
+        SharedPreferences prefs = context.getSharedPreferences("login", Context.MODE_PRIVATE);
+        return prefs.getString("email","");
+    }
+
+    public static int getHotelId(Context context){
+        SharedPreferences prefs = context.getSharedPreferences(Final.DataHotel.DATA, Context.MODE_PRIVATE);
+        return prefs.getInt(Final.DataHotel.ID, 0);
+    }
+
+    public static String getPlace(Context context){
+        SharedPreferences prefs = context.getSharedPreferences(Final.DataHotel.DATA, Context.MODE_PRIVATE);
+        return prefs.getString(Final.DataHotel.PLACE,"crash");
+    }
 }

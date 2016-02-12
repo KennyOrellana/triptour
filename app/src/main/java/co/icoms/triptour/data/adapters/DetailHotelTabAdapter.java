@@ -13,17 +13,10 @@ public class DetailHotelTabAdapter extends FragmentStatePagerAdapter {
     int mNumOfTabs;
     Bundle bundle;
 
-    public Bundle getBundle() {
-        return bundle;
-    }
-
-    public void setBundle(Bundle bundle) {
-        this.bundle = bundle;
-    }
-
-    public DetailHotelTabAdapter(FragmentManager fm, int NumOfTabs) {
+    public DetailHotelTabAdapter(FragmentManager fm, int NumOfTabs, Bundle bundle) {
         super(fm);
         this.mNumOfTabs = NumOfTabs;
+        this.bundle=bundle;
     }
 
     @Override

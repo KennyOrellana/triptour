@@ -30,7 +30,7 @@ public class DetailHotelReviewFragment extends Fragment {
     private RecyclerView recyclerViewDetailHotelReview;
     List<DetailHotelReviewCell> listReviews= new ArrayList<>();
 
-    DetailHotelReviewAdapter adapterDetailHotelReview = new DetailHotelReviewAdapter(listReviews, getContext());
+     DetailHotelReviewAdapter adapterDetailHotelReview = new DetailHotelReviewAdapter(listReviews, getContext());
 
     private int previousTotal = 0;
     private boolean loading = true;
@@ -106,6 +106,9 @@ public class DetailHotelReviewFragment extends Fragment {
                 swipeRefreshDetailHotelReviews.setRefreshing(false);
             }
         });
+
+
+
     }
 
     void addItem(int n){
@@ -149,4 +152,6 @@ public class DetailHotelReviewFragment extends Fragment {
             });
         }
     }
+
+
 }
